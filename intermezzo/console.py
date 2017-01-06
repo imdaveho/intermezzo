@@ -11,7 +11,7 @@ from builtins import ord
 from builtins import chr
 from future.utils import with_metaclass
 from abc import ABCMeta, abstractmethod
-import copy
+import json
 import sys
 import signal
 
@@ -64,9 +64,11 @@ class _AbstractCanvas(with_metaclass(ABCMeta, object)):
         self._start_line = 0
         self._x = self._y = None
         line = [(u" ", cnst.COLOUR_WHITE, 0, 0) for _ in range(self.width)]
+        # Note that we use json to duplicate the data as copy.deepcopy is an
+        # order of magnitude slower.
         self._screen_buffer = [
-            copy.deepcopy(line) for _ in range(self._buffer_height)]
-        self._double_buffer = copy.deepcopy(self._screen_buffer)
+            json.loads(json.dumps(line)) for _ in range(self._buffer
+        self._double_buffer = json.loads(json.dumps(self._screen_buffer))
         self._reset()
 
     def scroll(self):
@@ -319,6 +321,10 @@ class Screen(with_metaclass(ABCMeta, _AbstractCanvas)):
         self._attr = 0
         self._bg = 0
 
+        # tracking of current cursor position - used in screen refresh.
+        self._cur_x = 0
+        self._cur_y = 0
+
         # Control variables for playing out a set of Scenes.
         self._scenes = []
         self._scene_index = 0
@@ -394,6 +400,8 @@ class Screen(with_metaclass(ABCMeta, _AbstractCanvas)):
         self._colour = None
         self._attr = None
         self._bg = None
+        self._cur_x = None
+        self._cur_y = None
 
     def refresh(self):
         """
@@ -448,16 +456,6 @@ class Screen(with_metaclass(ABCMeta, _AbstractCanvas)):
 
         :returns: True when the screen has been re-sized since the last check.
         """
-
-    def get_char(self, x, y):
-        """
-        Get the character at a specified location.  This method is deprecated.
-        Use :py:meth:`.get_from` instead.
-
-        :param x: The x coordinate.
-        :param y: The y coordinate.
-        """
-        return self.get_from(x, y)
 
     @staticmethod
     def _unhandled_event_default(event):

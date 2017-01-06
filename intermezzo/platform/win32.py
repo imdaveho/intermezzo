@@ -387,15 +387,15 @@ class _WindowsScreen(Screen):
         # them on the assumption that we'll resize shortly.
         try:
             # Move the cursor if necessary
-            if x != self._x or y != self._y:
+            if x != self._cur_x or y != self._cur_y:
                 self._stdout.SetConsoleCursorPosition(
                     win32console.PyCOORDType(x, y))
 
             # Print the text at the required location and update the current
             # position.
             self._stdout.WriteConsole(text)
-            self._x = x + len(text)
-            self._y = y
+            self._cur_x = x + len(text)
+            self._cur_y = y
         except pywintypes.error:
             pass
 

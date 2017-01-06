@@ -254,7 +254,7 @@ class _CursesScreen(Screen):
         key = 0
         while key != -1:
             # Get the next key
-            key = self._screen.getch()
+            key = self._screen.get_from()
 
             if key == curses.KEY_RESIZE:
                 # Handle screen resize
@@ -347,7 +347,7 @@ class _CursesScreen(Screen):
         """
         # Move the cursor if necessary
         cursor = u""
-        if x != self._x or y != self._y:
+        if x != self._cur_x or y != self._cur_y:
             cursor = curses.tparm(self._move_y_x, y, x).decode("utf-8")
 
         # Print the text at the required location and update the current
@@ -358,6 +358,10 @@ class _CursesScreen(Screen):
             # This is probably a sign that the user has the wrong locale.
             # Try to soldier on anyway.
             self._safe_write(cursor + "?" * len(text))
+        
+        # Update cursor position for next time...
+            self._cur_x = x + len(text)
+            self._cur_y = y
 
     def set_title(self, title):
         """
