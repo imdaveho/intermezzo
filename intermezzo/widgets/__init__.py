@@ -1,3 +1,4 @@
+import sys
 import time
 
 
@@ -5,6 +6,7 @@ class Question(object):
     def __init__(self, name, query, labels=None):
         self.name = name
         self.query = query
+        self._os = sys.platform
         self._type = None
         self._screen = None
         self._result = ""
@@ -63,4 +65,4 @@ class Question(object):
         self._run()
         return None
 
-from intermezzo.widgets.text import Text
+from ._text import Text

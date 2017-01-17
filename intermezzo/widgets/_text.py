@@ -26,13 +26,13 @@ class Text(Question):
             for i, _ in enumerate(query):
                 if i in (1,):
                     # bright green, normal, black
-                    if type(self._screen).__name__ == '_WindowsScreen':
+                    if self._os in ('win32',):
                         query_colours.append((2, 2, 0))
                     else:
                         query_colours.append((10, 2, 0))
                 else:
                     # bright white, normal, black
-                    if type(self._screen).__name__ == '_WindowsScreen':
+                    if self._os in ('win32',):
                         query_colours.append((7, 2, 0))
                     else:
                         query_colours.append((15, 2, 0))
@@ -55,7 +55,9 @@ class Text(Question):
         return None
 
     def _handle_event(self, evt):
-        ENTER_KEY = 13
+        ENTER_KEY = 10
+        if self._os in ('win32',):
+            ENTER_KEY = 13
         DELETE_KEY = -102
         if isinstance(evt, KeyboardEvent):
             try:
@@ -70,7 +72,7 @@ class Text(Question):
                     x = len(self._labels['query'] + self.query) + 1
                     y = self._line_number
                     self._update_offset(xy=(x, y))
-                    if type(self._screen).__name__ == '_WindowsScreen':
+                    if self._os in ('win32',):
                         self._print(logged_result, colour=7)
                     else:
                         self._print(logged_result, colour=240)
@@ -212,7 +214,7 @@ class Text(Question):
         cx, cy = self._coords
         self._screen._move_cursor(cx, cy)
 
-        if type(self._screen).__name__ == '_CursesScreen':
+        if self._os in ('linux', 'darwin'):
             if not self._typing:
                 self._screen._show_cursor()
             else:
