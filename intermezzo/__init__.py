@@ -30,7 +30,7 @@ class Prompt(object):
             screen = self._screen
             question = questions.pop(0)
             response = question.ask(self._screen, self._line_number)
-            self._line_number += question._line_height
+            self._line_number += 2
 
             # if 'skip' in response.keys() and 'iters' in response.keys():
             #     skip = response.get('skip')
@@ -79,11 +79,15 @@ class Prompt(object):
         if dtype == 'Question':
             self.questions.append(data)
         elif dtype == 'list':
+            names = set()
             for n in data:
+                names.add(n.name)
                 if not isinstance(n, Question):
                     error = 'Invalid parameter in the provided list. '
                     fix = 'Must be a list of Questions.'
                     raise Exception(error + fix)
+            if len(names) != len(data):
+                raise Exception('Question names are not unique.')
             self.questions = data
         else:
             error = 'Invalid parameter. '

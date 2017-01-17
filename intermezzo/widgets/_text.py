@@ -3,6 +3,7 @@ from intermezzo.widgets import Question
 from intermezzo.terminal.event import KeyboardEvent
 from intermezzo.terminal import constants as cnst
 
+
 class Text(Question):
     def __init__(self, name, query, labels=None):
         super().__init__(name, query, labels)
@@ -77,7 +78,7 @@ class Text(Question):
                     else:
                         self._print(logged_result, colour=240)
                     self._update_offset(xy=(x, y+1))
-                    self._clear_eos(reset=True)
+                    self._clear_eos()
                     self._typing = True
                     self.refresh()
                     return True
@@ -178,19 +179,16 @@ class Text(Question):
         else:
             self._offset = xy
 
-    def _clear_eol(self, reset=False):
+    def _clear_eol(self):
+        # TODO: generalize and consolidate to Question class
         w = self._screen.width
         clrx = ''.join([' ' for _ in range(0, w)])
         clip = len(self._result) + self._origin[0]
-
         self._typing = True
-        if reset:
-            self._screen.print_at(clrx, 0, self._offset[1])
-            self._update_coords(xy=(0, self._offset[1]))
-        else:
-            self._print(self._result + clrx[clip:])
+        self._print(self._result + clrx[clip:])
 
-    def _clear_eos(self, reset=False):
+    def _clear_eos(self):
+        # TODO: generalize and consolidate to Question class
         w, h = self._screen.width, self._screen.height
         # TODO: explain what overflow check is
         overflow_check = (h - 1) - (self._offset[1] + self._line_height)
@@ -198,15 +196,8 @@ class Text(Question):
             h += (self._line_height + 1)
         clrx =''.join([' ' for _ in range(0, w)])
         clry = [clrx for _ in range(self._offset[1] + 1, h)]
-
-        # 1. clear line from current xpos
-        clip = len(self._result) + self._origin[0]
         self._typing = True
-        if reset:
-            self._screen.print_at(clrx, 0, self._offset[1])
-        else:
-            self._print(self._result + clrx[clip:])
-        # 2. clear subsequent lines below
+        self._screen.print_at(clrx, 0, self._offset[1])
         for i, ln in enumerate(clry):
             self._screen.print_at(ln, 0, self._offset[1] + i)
 

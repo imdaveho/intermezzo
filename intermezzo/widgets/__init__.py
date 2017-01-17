@@ -66,3 +66,4 @@ class Question(object):
         return None
 
 from ._text import Text
+from ._choice import Choice
