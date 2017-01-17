@@ -21,10 +21,13 @@ class Question(object):
         query = labels.get('query') or "[?]"
         # RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
         prompt = labels.get('prompt') or "\u00BB"
-        # RADIO FILLED (FISHEYE)
-        toggle = labels.get('toggle') or "\u25C9"
-        # RADIO BLANK (LARGE CIRCLE)
-        untoggle = labels.get('untoggle') or "\u25EF"
+        # RADIO FILLED (FISHEYE), RADIO BLANK (LARGE CIRCLE)
+        os_toggle, os_untoggle = "\u25C9", "\u25EF"
+        if self._os in ('win32',):
+            # BLACK RIGHT-POINTING POINTER (\u25BA) OR BULLET (\u2022), WHITE CIRCLE
+            os_toggle, os_untoggle = "\u25BA", "\u25CB"
+        toggle = labels.get('toggle') or os_toggle
+        untoggle = labels.get('untoggle') or os_untoggle
         # SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
         selector = labels.get('selector') or "\u203A"
         config = {
