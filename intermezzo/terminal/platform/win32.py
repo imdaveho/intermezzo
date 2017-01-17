@@ -461,8 +461,8 @@ class _WindowsScreen(Screen):
         self._cur_x = x
         self._cur_y = y
 
-    # def _hide_cursor(self):
-    #     self._stdout.SetConsoleCursorInfo(1, 0)
+    def _hide_cursor(self):
+        self._stdout.SetConsoleCursorInfo(1, 0)
 
-    # def _show_cursor(self):
-    #     self._stdout.SetConsoleCursorInfo(1, 1)
+    def _show_cursor(self):
+        self._stdout.SetConsoleCursorInfo(1, 1)
