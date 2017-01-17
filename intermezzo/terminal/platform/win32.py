@@ -3,6 +3,10 @@ from intermezzo.terminal.screen import Screen
 from intermezzo.terminal import constants as cnst
 from intermezzo.terminal.event import KeyboardEvent, MouseEvent
 
+# Logging
+from logging import getLogger
+logger = getLogger(__name__)
+
 import win32console
 import win32con
 import pywintypes
@@ -54,7 +58,7 @@ def open(cls, height=200, catch_interrupt=False, unicode_aware=None):
     win_in.SetStdHandle(STD_INPUT_HANDLE)
 
     # Hide the cursor.
-    win_out.SetConsoleCursorInfo(1, 0)
+    # win_out.SetConsoleCursorInfo(1, 0)
 
     # Disable scrolling
     out_mode = win_out.GetConsoleMode()
@@ -457,8 +461,8 @@ class _WindowsScreen(Screen):
         self._cur_x = x
         self._cur_y = y
 
-    def _hide_cursor(self):
-        self._stdout.SetConsoleCursorInfo(1, 0)
+    # def _hide_cursor(self):
+    #     self._stdout.SetConsoleCursorInfo(1, 0)
 
-    def _show_cursor(self):
-        self._stdout.SetConsoleCursorInfo(1, 1)
+    # def _show_cursor(self):
+    #     self._stdout.SetConsoleCursorInfo(1, 1)

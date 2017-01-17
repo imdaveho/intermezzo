@@ -11,6 +11,8 @@ class Text(Question):
         self._origin = (0, 0)
         self._coords = (0, 0)
         self._offset = (0, 0)
+        # UNIX/POSIX specific
+        # see _reset_cursor()
         self._typing = False
         self._timeout = time.time()
 
@@ -24,10 +26,16 @@ class Text(Question):
             for i, _ in enumerate(query):
                 if i in (1,):
                     # bright green, normal, black
-                    query_colours.append((10, 2, 0))
+                    if type(self._screen).__name__ == '_WindowsScreen':
+                        query_colours.append((2, 2, 0))
+                    else:
+                        query_colours.append((10, 2, 0))
                 else:
                     # bright white, normal, black
-                    query_colours.append((15, 2, 0))
+                    if type(self._screen).__name__ == '_WindowsScreen':
+                        query_colours.append((7, 2, 0))
+                    else:
+                        query_colours.append((15, 2, 0))
             self._print(query, colour_map=query_colours)
         else:
             #TODO: make colours configurable
@@ -35,7 +43,10 @@ class Text(Question):
 
         # 2. Display the prompt
         prompt = self._labels['prompt']
-        self._println(prompt, colour=9)
+        if type(self._screen).__name__ == '_WindowsScreen':
+            self._println(prompt, colour=1)
+        else:
+            self._println(prompt, colour=9)
 
         x, y = len(prompt), self._line_number + 1
         self._origin = (x, y)
@@ -44,7 +55,7 @@ class Text(Question):
         return None
 
     def _handle_event(self, evt):
-        ENTER_KEY = 10
+        ENTER_KEY = 13
         DELETE_KEY = -102
         if isinstance(evt, KeyboardEvent):
             try:
@@ -59,7 +70,10 @@ class Text(Question):
                     x = len(self._labels['query'] + self.query) + 1
                     y = self._line_number
                     self._update_offset(xy=(x, y))
-                    self._print(logged_result, colour=240)
+                    if type(self._screen).__name__ == '_WindowsScreen':
+                        self._print(logged_result, colour=7)
+                    else:
+                        self._print(logged_result, colour=240)
                     self._update_offset(xy=(x, y+1))
                     self._clear_eos(reset=True)
                     self._typing = True
@@ -198,14 +212,15 @@ class Text(Question):
         cx, cy = self._coords
         self._screen._move_cursor(cx, cy)
 
-        if not self._typing:
-            self._screen._show_cursor()
-        else:
-            self._screen._hide_cursor()
+        if type(self._screen).__name__ == '_CursesScreen':
+            if not self._typing:
+                self._screen._show_cursor()
+            else:
+                self._screen._hide_cursor()
 
-        if self._typing and (time.time() - self._timeout > self._frames_per_second):
-            self._timeout = time.time()
-            self._typing = False
+            if self._typing and (time.time() - self._timeout > self._frames_per_second):
+                self._timeout = time.time()
+                self._typing = False
 
     def _run(self):
         while True:
