@@ -2,3 +2,6 @@
 *.un~
 *.pyc
 __pycache__
+.tool-versions
+tags
+venv

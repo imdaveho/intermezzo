@@ -15,13 +15,9 @@ import json
 import sys
 import signal
 
-from intermezzo.event import KeyboardEvent, MouseEvent
-from intermezzo.exceptions import ResizeScreenError, StopApplication
-from intermezzo import constants as cnst
-
-# Logging
-from logging import getLogger
-logger = getLogger(__name__)
+from intermezzo.terminal.event import KeyboardEvent, MouseEvent
+from intermezzo.terminal.exceptions import ResizeScreenError, StopApplication
+from intermezzo.terminal import constants as cnst
 
 
 class _AbstractCanvas(with_metaclass(ABCMeta, object)):
@@ -67,7 +63,7 @@ class _AbstractCanvas(with_metaclass(ABCMeta, object)):
         # Note that we use json to duplicate the data as copy.deepcopy is an
         # order of magnitude slower.
         self._screen_buffer = [
-            json.loads(json.dumps(line)) for _ in range(self._buffer
+            json.loads(json.dumps(line)) for _ in range(self._buffer_height)]
         self._double_buffer = json.loads(json.dumps(self._screen_buffer))
         self._reset()
 
@@ -511,6 +507,6 @@ class Screen(with_metaclass(ABCMeta, _AbstractCanvas)):
         """
 
 if sys.platform in ('win32',):
-    from intermezzo.platform import win32
+    from intermezzo.terminal.platform import win32
 elif sys.platform in ('linux', 'darwin'):
-    from intermezzo.platform import unix
+    from intermezzo.terminal.platform import unix

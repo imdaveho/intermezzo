@@ -1,7 +1,7 @@
 import time
-from intermezzo.console import Screen
-from intermezzo import constants as cnst
-from intermezzo.event import KeyboardEvent, MouseEvent
+from intermezzo.terminal.screen import Screen
+from intermezzo.terminal import constants as cnst
+from intermezzo.terminal.event import KeyboardEvent, MouseEvent
 
 import win32console
 import win32con
@@ -437,3 +437,28 @@ class _WindowsScreen(Screen):
         :param title: The title to be set.
         """
         win32console.SetConsoleTitle(title)
+
+    # Additions for Impromptu
+    # for cursor management
+    def _move_cursor(self, x, y):
+        """
+        Move the default console cursor.
+        Copy of the respective section within _print_at(...)
+
+        :param x: The x coordinate
+        :param y: The y coordinate
+        """
+        # Move the cursor
+        if x != self._cur_x or y != self._cur_y:
+            self._stdout.SetConsoleCursorPosition(
+                win32console.PyCOORDType(x, y))
+
+        # Update coordinates
+        self._cur_x = x
+        self._cur_y = y
+
+    def _hide_cursor(self):
+        self._stdout.SetConsoleCursorInfo(1, 0)
+
+    def _show_cursor(self):
+        self._stdout.SetConsoleCursorInfo(1, 1)

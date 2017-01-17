@@ -1,10 +1,14 @@
 # UNIX compatible platform - use curses
 import sys
 import signal
-from intermezzo.console import Screen
-from intermezzo import constants as cnst
-from intermezzo.event import KeyboardEvent, MouseEvent
+from intermezzo.terminal.screen import Screen
+from intermezzo.terminal import constants as cnst
+from intermezzo.terminal.event import KeyboardEvent, MouseEvent
 from locale import getlocale, getdefaultlocale
+
+# Logging
+from logging import getLogger
+logger = getLogger(__name__)
 
 import curses
 
@@ -254,7 +258,7 @@ class _CursesScreen(Screen):
         key = 0
         while key != -1:
             # Get the next key
-            key = self._screen.get_from()
+            key = self._screen.getch()
 
             if key == curses.KEY_RESIZE:
                 # Handle screen resize
@@ -345,6 +349,8 @@ class _CursesScreen(Screen):
         :param x: The x coordinate
         :param y: The Y coordinate
         """
+        self._hide_cursor()
+
         # Move the cursor if necessary
         cursor = u""
         if x != self._cur_x or y != self._cur_y:
@@ -358,7 +364,7 @@ class _CursesScreen(Screen):
             # This is probably a sign that the user has the wrong locale.
             # Try to soldier on anyway.
             self._safe_write(cursor + "?" * len(text))
-        
+
         # Update cursor position for next time...
             self._cur_x = x + len(text)
             self._cur_y = y
@@ -373,3 +379,30 @@ class _CursesScreen(Screen):
         if self._start_line is not None:
             self._safe_write("{}{}{}".format(self._start_title, title,
                                              self._end_title))
+    # Additions for Impromptu
+    # cursor management...
+    def _move_cursor(self, x, y):
+        """
+        Move the default console cursor.
+        Copy of the respective section within _print_at(...)
+
+        :param x: The x coordinate
+        :param y: The y coordinate
+        """
+        # Move the cursor
+        cursor = u""
+        if x != self._cur_x or y != self._cur_y:
+            cursor = curses.tparm(self._move_y_x, y, x).decode("utf-8")
+
+        # Apply it to the console
+        self._safe_write(cursor)
+
+        # Update coordinates
+        self._cur_x = x
+        self._cur_y = y
+
+    def _hide_cursor(self):
+        curses.curs_set(0)
+
+    def _show_cursor(self):
+        curses.curs_set(1)
