@@ -187,6 +187,8 @@ class Choice(Question):
             self._screen.print_at(ln, 0, choices_position + i)
 
     def _run(self):
+        if self._os in ('win32',):
+            self._screen._hide_cursor()
         while True:
             evt = self._screen.get_event()
             if self._handle_event(evt):
@@ -194,6 +196,8 @@ class Choice(Question):
             self._handle_scroll()
             self._update_offset(xy=(0, self._line_number))
             self.refresh()
+        if self._os in ('win32',):
+            self._screen._show_cursor()
 
     def ask(self, screen, ln):
         super().ask(screen, ln)
