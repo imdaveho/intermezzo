@@ -1,5 +1,5 @@
 import time
-from intermezzo.widgets import Question
+from intermezzo.fields import Question
 from intermezzo.terminal.event import KeyboardEvent
 from intermezzo.terminal import constants as cnst
 
@@ -205,3 +205,118 @@ class Choice(Question):
             'result': self._result
         }
         return response
+
+
+class Multiple(Choice):
+    def __init__(self, name, query, choices, size=7, labels=None):
+        super().__init__(name, query, choices, size, labels)
+        self._type = "multiple"
+        self.choices = [[choice, False] for choice in self.choices]
+
+    def _handle_event(self, evt):
+        ENTER_KEY, SPACE_KEY = 10, 32
+        if self._os in ('win32',):
+            ENTER_KEY, SPACE_KEY = 13, 32
+        choice = self.choices[self._index]
+        if isinstance(evt, KeyboardEvent):
+            try:
+                keyc = evt.key_code
+                if keyc == ENTER_KEY:
+                    self._result = [result[0] for result in self.choices if result[1]]
+                    responses = len(self._result)
+                    if responses > 1:
+                        logged_result = '[ ' + str(len(self._result)) + ' responses ]'
+                    elif responses == 1:
+                        logged_result = '[ ' + self._result[0][:24] + ' ]'
+                        if len(self._result[0]) > 24:
+                            logged_result = logged_result[:-1] + '... ]'
+                    else:
+                        logged_result = '[]'
+
+                    x = len(self._labels['query'] + self.query) + 1
+                    y = self._line_number
+                    self._update_offset(xy=(x, y))
+                    if self._os in ('win32',):
+                        self._print(logged_result, colour=7)
+                    else:
+                        self._print(logged_result, colour=240)
+                    self._clear_eos()
+                    self.refresh()
+                    return True
+
+                elif keyc == cnst.KEY_UP:
+                    if self._cursor > self._padding:
+                        self._cursor -= 1
+                        self._index -= 1
+
+                    elif self._index > self._padding:
+                        self._index -= 1
+
+                    elif self._index <= self._padding:
+                        if self._index > 0:
+                            self._index -= 1
+                            self._cursor -= 1
+                        else:
+                            self._index = 0
+                            self._pointer = 0
+                    self._clear_eos()
+
+                elif keyc == cnst.KEY_DOWN:
+                    if self._cursor < self._padding:
+                        self._cursor += 1
+                        self._index += 1
+
+                    elif self._index < self._bottom - self._padding:
+                        self._index += 1
+
+                    elif self._index >= self._bottom - self._padding:
+                        if self._index < self._bottom:
+                            self._index += 1
+                            self._cursor += 1
+                        else:
+                            self._index = self._bottom
+                            self._pointer = self._list_size - 1
+                    self._clear_eos()
+
+                elif keyc == cnst.KEY_RIGHT:
+                    choice[1] = True
+
+                elif keyc == cnst.KEY_LEFT:
+                    choice[1] = False
+
+                elif keyc == SPACE_KEY:
+                    if choice[1]:
+                        choice[1] = False
+                    else:
+                        choice[1] = True
+
+                else:
+                    pass
+
+            except TypeError:
+                pass
+        else:
+            pass
+        return False
+
+    def _handle_scroll(self):
+        selector = self._labels['selector']
+        toggle = self._labels['toggle']
+        untoggle = self._labels['untoggle']
+        blankspc = ''.join(" " for _ in range(len(selector)))
+        aquamarine1, grey35 = 86, 240
+        if self._os in ('win32',):
+            aquamarine1, grey35 = 6, 7
+        self._handle_segment()
+        for i, choice in enumerate(self._segment):
+            if i == self._cursor:
+                if choice[1]:
+                    self._println(selector + toggle + choice[0], colour=aquamarine1)
+                else:
+                    self._println(selector + untoggle + choice[0], colour=aquamarine1)
+            else:
+                if choice[1]:
+                    self._println(blankspc + toggle + choice[0], colour=aquamarine1)
+                else:
+                    self._println(blankspc + untoggle + choice[0], colour=grey35)
+        return None

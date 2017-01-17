@@ -1,7 +1,7 @@
 import time
 from intermezzo.terminal.event import KeyboardEvent
 from intermezzo.terminal.screen import Screen
-from intermezzo.widgets import Question
+from intermezzo.fields import Question
 
 
 class Prompt(object):

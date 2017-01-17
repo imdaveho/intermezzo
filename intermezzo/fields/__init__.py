@@ -65,5 +65,5 @@ class Question(object):
         self._run()
         return None
 
-from ._text import Text
-from ._choice import Choice
+from ._text import Text, Password
+from ._choice import Choice, Multiple

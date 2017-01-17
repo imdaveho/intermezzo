@@ -1,5 +1,5 @@
 import time
-from intermezzo.widgets import Question
+from intermezzo.fields import Question
 from intermezzo.terminal.event import KeyboardEvent
 from intermezzo.terminal import constants as cnst
 
@@ -234,3 +234,92 @@ class Text(Question):
             'result': self._result
         }
         return response
+
+
+class Password(Text):
+    def __init__(self, name, query, labels=None):
+        super().__init__(name, query, labels)
+        self._type = "password"
+
+    def _handle_event(self, evt):
+        ENTER_KEY = 10
+        if self._os in ('win32',):
+            ENTER_KEY = 13
+        DELETE_KEY = -102
+        if isinstance(evt, KeyboardEvent):
+            try:
+                keyc = evt.key_code
+                if keyc == ENTER_KEY:
+                    # TODO: handle empty result if required field
+                    logged_result = "*************"
+                    x = len(self._labels['query'] + self.query) + 1
+                    y = self._line_number
+                    self._update_offset(xy=(x, y))
+                    if self._os in ('win32',):
+                        self._print(logged_result, colour=7)
+                    else:
+                        self._print(logged_result, colour=240)
+                    self._update_offset(xy=(x, y+1))
+                    self._clear_eos()
+                    self._typing = True
+                    self.refresh()
+                    return True
+
+                elif keyc == cnst.KEY_BACK:
+                    if self._coords[0] > self._origin[0]:
+                        cx = self._coords[0] - self._origin[0]
+                        self._update_coords(dx=-1)
+                        self._result = self._result[:cx][:-1] + self._result[cx:]
+                        self._clear_eol()
+
+                elif keyc == DELETE_KEY:
+                    cx = self._coords[0] - self._origin[0]
+                    left_substr = self._result[:cx]
+                    right_substr = self._result[cx:]
+                    if len(right_substr) > 0:
+                        self._result = left_substr + right_substr[1:]
+                    self._clear_eol()
+                    self._screen._move_cursor(self._coords[0] - 1, self._coords[1])
+
+                elif keyc == cnst.KEY_LEFT:
+                    if self._coords[0] > self._origin[0]:
+                        self._update_coords(dx=-1)
+                    x, y = self._coords
+                    self._screen._move_cursor(x, y)
+
+                elif keyc == cnst.KEY_RIGHT:
+                    result = self._origin[0] + len(self._result)
+                    if self._coords[0] < result:
+                        self._update_coords(dx=1)
+                    x, y = self._coords
+                    self._screen._move_cursor(x, y)
+
+                else:
+                    try:
+                        # TODO: implement word wrapping
+                        char = ''
+                        if chr(keyc).isprintable():
+                            char = chr(keyc)
+                        cx = self._coords[0] - self._origin[0]
+                        self._result = self._result[:cx] + char + self._result[cx:]
+                        self._typing = True
+                        secret = ''.join(["*" for _ in range(len(self._result))])
+                        self._print(secret)
+                        self._update_coords(dx=1)
+
+                    except ValueError:
+                        pass
+            except TypeError:
+                pass
+        else:
+            pass
+        return False
+
+    def _clear_eol(self):
+        # TODO: generalize and consolidate to Question class
+        w = self._screen.width
+        clrx = ''.join([' ' for _ in range(0, w)])
+        clip = len(self._result) + self._origin[0]
+        self._typing = True
+        secret = ''.join(["*" for _ in range(len(self._result))])
+        self._print(secret + clrx[clip:])
