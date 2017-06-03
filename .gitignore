@@ -4,6 +4,4 @@
 __pycache__
 .tool-versions
 tags
-venv/
 .envrc
-workspace/
