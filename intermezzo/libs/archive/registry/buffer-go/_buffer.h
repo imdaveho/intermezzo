@@ -1,10 +1,25 @@
 /* Created by "go tool cgo" - DO NOT EDIT. */
 
-/* package command-line-arguments */
+/* package github.com/imdaveho/intermezzo/intermezzo/libs/registry/buffer-go */
 
 /* Start of preamble from import "C" comments.  */
 
 
+#line 3 "/home/vagrant/development/gopher/workspace/src/github.com/imdaveho/intermezzo/intermezzo/libs/registry/buffer-go/buffer.go"
+
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Cell
+{
+    int32_t  Ch;
+    uint32_t Fg;
+    uint32_t Bg;
+} Cell;
+
+#line 1 "cgo-generated-wrapper"
 
 
 /* End of preamble from import "C" comments.  */
@@ -53,9 +68,11 @@ extern "C" {
 #endif
 
 
-extern void Init();
+extern int MakeBuffer();
 
-extern void Close();
+extern Cell GetCell(int p0);
+
+extern void ClearCells();
 
 #ifdef __cplusplus
 }
