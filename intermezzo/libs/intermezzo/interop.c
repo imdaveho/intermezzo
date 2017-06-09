@@ -17,7 +17,7 @@ void insertCells(CellSlice *ptr, Cell cell, int index)
   ptr->data[index] = cell;
 }
 
-void freeCells(CellSlice *ptr)
+void freeCCells(CellSlice *ptr)
 {
   Cell *cells = ptr->data;
   free(cells); // free Cell*

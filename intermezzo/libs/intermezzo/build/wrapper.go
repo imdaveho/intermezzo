@@ -1,27 +1,40 @@
 package main
 
-// #cgo CFLAGS: -Wall -g
-// #include "interop.h"
+//#cgo CFLAGS: -Wall -g
+//#include "interop.h"
 import "C"
 import (
 	"github.com/nsf/termbox-go"
 )
 
-//export freeError
-func freeError(s *C.char) {
-	C.freeCString(s)
+/****************************************************
+* These are free() calls to ensure that malloc'd    *
+* memory is appropriately released after use. It    *
+* is wrapped here in order to pass along to Py.CFFI *
+****************************************************/
+//export freeCells
+func freeCells(ptr *C.CellSlice) {
+	C.freeCCells(ptr)
+}
+
+//export freeString
+func freeString(str *C.char) {
+	C.freeCString(str)
 }
 
 //export freeSize
-func freeSize(t *C.SizeTuple) {
-	C.freeCSizeTuple(t)
+func freeSize(ptr *C.SizeTuple) {
+	C.freeCSizeTuple(ptr)
 }
 
 //export freeEvent
-func freeEvent(evt *C.Event) {
-	C.freeCEvent(evt)
+func freeEvent(ptr *C.Event) {
+	C.freeCEvent(ptr)
 }
 
+/****************************************************
+* Termbox-Go API Wrappers                           *
+****************************************************/
 //export CellBuffer
 func CellBuffer() *C.CellSlice {
 	buffer := termbox.CellBuffer()
@@ -52,7 +65,7 @@ func Flush() C.Error {
 	} else {
 		return C.CString("")
 	}
-	// remember to free the CString with freeCString!
+	// remember to free the CString!
 }
 
 //export HideCursor
@@ -68,7 +81,7 @@ func Init() C.Error {
 	} else {
 		return C.CString("")
 	}
-	// remember to free the CString with freeCString!
+	// remember to free the CString!
 }
 
 //export Interrupt
@@ -111,7 +124,7 @@ func Sync() *C.char {
 	} else {
 		return C.CString("")
 	}
-	// remember to free the CString with freeCString!
+	// remember to free the CString!
 }
 
 //export PollEvent

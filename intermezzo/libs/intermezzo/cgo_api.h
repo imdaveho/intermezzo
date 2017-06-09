@@ -1,23 +1,13 @@
 /* Created by "go tool cgo" - DO NOT EDIT. */
 
-/* package github.com/imdaveho/intermezzo/intermezzo/libs/registry/buffer-go */
+/* package github.com/imdaveho/intermezzo/intermezzo/libs/intermezzo/build */
 
 /* Start of preamble from import "C" comments.  */
 
 
-#line 3 "/home/vagrant/development/gopher/workspace/src/github.com/imdaveho/intermezzo/intermezzo/libs/registry/buffer-go/buffer.go"
+#line 3 "/home/vagrant/development/gopher/workspace/src/github.com/imdaveho/intermezzo/intermezzo/libs/intermezzo/build/wrapper.go"
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct Cell
-{
-    int32_t  Ch;
-    uint32_t Fg;
-    uint32_t Bg;
-} Cell;
+#include "interop.h"
 
 #line 1 "cgo-generated-wrapper"
 
@@ -68,11 +58,49 @@ extern "C" {
 #endif
 
 
-extern int MakeBuffer();
+/****************************************************
+* These are free() calls to ensure that malloc'd    *
+* memory is appropriately released after use. It    *
+* is wrapped here in order to pass along to Py.CFFI *
+****************************************************/
 
-extern Cell GetCell(int p0);
+extern void freeCells(CellSlice* p0);
 
-extern void ClearCells();
+extern void freeString(char* p0);
+
+extern void freeSize(SizeTuple* p0);
+
+extern void freeEvent(Event* p0);
+
+/****************************************************
+* Termbox-Go API Wrappers                           *
+****************************************************/
+
+extern CellSlice* CellBuffer();
+
+extern void Close();
+
+extern Error Flush();
+
+extern void HideCursor();
+
+extern Error Init();
+
+extern void Interrupt();
+
+extern void SetCell(int p0, int p1, int32_t p2, uint16_t p3, uint16_t p4);
+
+extern void SetCursor(int p0, int p1);
+
+extern SizeTuple Size();
+
+extern char* Sync();
+
+extern Event PollEvent();
+
+extern int SetInputMode(int p0);
+
+extern int SetOutputMode(int p0);
 
 #ifdef __cplusplus
 }
