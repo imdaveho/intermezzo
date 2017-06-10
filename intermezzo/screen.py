@@ -1,91 +1,66 @@
-import time
-# from termbox import Intermezzo
+# import time
+import asyncio
 from libs.intermezzo import Intermezzo
 
+mzo = Intermezzo()
+
+def tbPrint(x, y, fg, bg, msg):
+    for c in msg:
+        mzo.set_cell(int(x), int(y), ord(c), fg, bg)
+        x+=1
+
+def draw(i):
+    mzo.clear(0, 0)
+    w, h = mzo.size()
+    s = "count = {}".format(i)
+    tbPrint((w/2)-(len(s)/2), h/2, 2, 0, s)
+    mzo.flush()
+
+async def countdown():
+    await asyncio.sleep(5)
+    mzo.interrupt()
+
+    await asyncio.sleep(1)
+    raise(Exception("This shouldn't run."))
+
 if __name__ == "__main__":
-    mzo = Intermezzo()
-    mzo.init()
-    time.sleep(2)
+    err = mzo.init()
+    if err:
+        raise(Exception(err))
+    mzo.set_input_mode(1)
+    loop = asyncio.get_event_loop()
+    count = 0
+    draw(count)
+    loop.run_until_complete(countdown())
+    while True:
+        evt = mzo.poll_event()
+        if evt["Type"] == 0:
+            if chr(evt["Ch"]) == '+':
+                count += 1
+            elif chr(evt["Ch"]) == '-':
+                count -= 1
+        elif evt["Type"] == 3:
+            raise(Exception(evt["Err"]))
+        elif evt["Type"] == 4:
+            break
+        draw(count)
     mzo.close()
+    loop.close()
+    print("Done.")
 
-    buffer_ffi = mzo.get_cell_buffer()
-    print("ffi.new():")
-    print(buffer_ffi)
-    print(buffer_ffi.data)
-    print(buffer_ffi.len)
-    print("========================")
-    print("interop C:")
-    hanging = mzo.get_hanging()
-    print(hanging[0])
-    print(hanging.data[0])
-    print(hanging.len)
-    print(hanging)
-    print("")
+# if __name__ == "__main__":
+#     mzo = Intermezzo()
+#     mzo.init()
+#     time.sleep(1)
+#     mzo.close()
 
-    print("========================")
-    print("ffi.new():")
-    for i in range(buffer_ffi.len):
-        if i < 10:
-            print(buffer_ffi.data[i].Ch)
-    # mzo.clear_cell_buffer(buffer_ffi[0]) # errors out: free() invalid size
+#     buffer = mzo.cell_buffer()
+#     print("(python) buffer lenght: {}".format(len(buffer)))
 
-    print("interop C:")
-    print("========================")
-    for i in range(hanging.len):
-        if i < 10:
-            print(hanging.data[i].Ch)
+#     error = mzo.clear(1, 1)
+#     error = mzo.flush()
+#     w, h = mzo.size()
+#     print(w)
+#     print(h)
 
-    print("")
-    print("clearing cgo")
-    mzo.clear_cell_buffer(hanging[0])
-    print("========================")
-    print("ffi.new():")
-    for i in range(buffer_ffi.len):
-        if i < 10:
-            print(buffer_ffi.data[i].Ch)
-
-    print("")
-    print("========================")
-    print("checking cgo")
-    print("should error out")
-    print(hanging)
-    print(hanging.data)
-    print(hanging.len)
-    for i in range(hanging.len):
-        if i < 10:
-            print(hanging.data[i].Ch)
-
-
-
-    # # This seems to clean memory!
-    # buffer_cgo = mzo.get_cell_buffer_c_addr()
-    # print(buffer_cgo)
-    # print(buffer_cgo.data)
-    # print(buffer_cgo.len)
-    # time.sleep(2)
-    # mzo.close()
-
-    # for i in range(buffer_cgo.len):
-    #     if i < 10:
-    #         print(buffer_cgo.data[i].Ch)
-
-
-    # mzo.clear_cell_buffer(buffer_cgo)
-    # for i in range(buffer_cgo.len):
-    #     if i < 10:
-    #         print(buffer_cgo.data[i].Ch)
-
-
-
-
-
-
-    # print(Intermezzo.get_addr(buffer_ffi[0]))
-    # buffer_ffi_addr = Intermezzo.get_addr(buffer_ffi[0])
-    # Intermezzo.clear_cell_buffer(buffer_ffi_addr)
-    # print(buffer_ffi.data)
-    # print(buffer_ffi.len)
-
-    # Intermezzo.clear_cell_buffer(buffer_cgo)
-    # print(buffer_cgo.data)
-    # print(buffer_cgo.len)
+#     evt = mzo.poll_event()

@@ -437,50 +437,51 @@ static void (*_cffi_call_python_org)(struct _cffi_externpy_s *, char *);
 /************************************************************/
 
 static void *_cffi_types[] = {
-/*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 12), // CellSlice *()(void)
+/*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 16), // CellSlice *()(void)
 /*  1 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  2 */ _CFFI_OP(_CFFI_OP_FUNCTION, 39), // Event()(void)
+/*  2 */ _CFFI_OP(_CFFI_OP_FUNCTION, 40), // Event()(void)
 /*  3 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  4 */ _CFFI_OP(_CFFI_OP_FUNCTION, 40), // SizeTuple()(void)
+/*  4 */ _CFFI_OP(_CFFI_OP_FUNCTION, 41), // SizeTuple()(void)
 /*  5 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  6 */ _CFFI_OP(_CFFI_OP_FUNCTION, 21), // char *()(void)
-/*  7 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  8 */ _CFFI_OP(_CFFI_OP_FUNCTION, 9), // int()(int)
-/*  9 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
-/* 10 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 11 */ _CFFI_OP(_CFFI_OP_FUNCTION, 43), // void()(CellSlice *)
-/* 12 */ _CFFI_OP(_CFFI_OP_POINTER, 38), // CellSlice *
-/* 13 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 14 */ _CFFI_OP(_CFFI_OP_FUNCTION, 43), // void()(Event *)
-/* 15 */ _CFFI_OP(_CFFI_OP_POINTER, 39), // Event *
-/* 16 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 17 */ _CFFI_OP(_CFFI_OP_FUNCTION, 43), // void()(SizeTuple *)
-/* 18 */ _CFFI_OP(_CFFI_OP_POINTER, 40), // SizeTuple *
-/* 19 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 20 */ _CFFI_OP(_CFFI_OP_FUNCTION, 43), // void()(char *)
-/* 21 */ _CFFI_OP(_CFFI_OP_POINTER, 41), // char *
-/* 22 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 23 */ _CFFI_OP(_CFFI_OP_FUNCTION, 43), // void()(int, int)
-/* 24 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/*  6 */ _CFFI_OP(_CFFI_OP_FUNCTION, 22), // char *()(uint16_t, uint16_t)
+/*  7 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 20), // uint16_t
+/*  8 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 20),
+/*  9 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 10 */ _CFFI_OP(_CFFI_OP_FUNCTION, 22), // char *()(void)
+/* 11 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 12 */ _CFFI_OP(_CFFI_OP_FUNCTION, 13), // int()(int)
+/* 13 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
+/* 14 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 15 */ _CFFI_OP(_CFFI_OP_FUNCTION, 44), // void()(CellSlice *)
+/* 16 */ _CFFI_OP(_CFFI_OP_POINTER, 39), // CellSlice *
+/* 17 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 18 */ _CFFI_OP(_CFFI_OP_FUNCTION, 44), // void()(Event *)
+/* 19 */ _CFFI_OP(_CFFI_OP_POINTER, 40), // Event *
+/* 20 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 21 */ _CFFI_OP(_CFFI_OP_FUNCTION, 44), // void()(char *)
+/* 22 */ _CFFI_OP(_CFFI_OP_POINTER, 42), // char *
+/* 23 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 24 */ _CFFI_OP(_CFFI_OP_FUNCTION, 44), // void()(int, int)
 /* 25 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 26 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 27 */ _CFFI_OP(_CFFI_OP_FUNCTION, 43), // void()(int, int, int32_t, uint16_t, uint16_t)
-/* 28 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 26 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 27 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 28 */ _CFFI_OP(_CFFI_OP_FUNCTION, 44), // void()(int, int, int32_t, uint16_t, uint16_t)
 /* 29 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
-/* 30 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 21), // int32_t
-/* 31 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 20), // uint16_t
+/* 30 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 31 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 21), // int32_t
 /* 32 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 20),
-/* 33 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 34 */ _CFFI_OP(_CFFI_OP_FUNCTION, 43), // void()(void)
-/* 35 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/* 36 */ _CFFI_OP(_CFFI_OP_POINTER, 37), // Cell *
-/* 37 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // Cell
-/* 38 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 1), // CellSlice
-/* 39 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 2), // Event
-/* 40 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 3), // SizeTuple
-/* 41 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 2), // char
-/* 42 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 18), // uint8_t
-/* 43 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
+/* 33 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 20),
+/* 34 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 35 */ _CFFI_OP(_CFFI_OP_FUNCTION, 44), // void()(void)
+/* 36 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 37 */ _CFFI_OP(_CFFI_OP_POINTER, 38), // Cell *
+/* 38 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // Cell
+/* 39 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 1), // CellSlice
+/* 40 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 2), // Event
+/* 41 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 3), // SizeTuple
+/* 42 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 2), // char
+/* 43 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 18), // uint8_t
+/* 44 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
 };
 
 static CellSlice * _cffi_d_CellBuffer(void)
@@ -501,10 +502,48 @@ _cffi_f_CellBuffer(PyObject *self, PyObject *noarg)
 
   (void)self; /* unused */
   (void)noarg; /* unused */
-  return _cffi_from_c_pointer((char *)result, _cffi_type(12));
+  return _cffi_from_c_pointer((char *)result, _cffi_type(16));
 }
 #else
 #  define _cffi_f_CellBuffer _cffi_d_CellBuffer
+#endif
+
+static char * _cffi_d_Clear(uint16_t x0, uint16_t x1)
+{
+  return Clear(x0, x1);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_Clear(PyObject *self, PyObject *args)
+{
+  uint16_t x0;
+  uint16_t x1;
+  char * result;
+  PyObject *arg0;
+  PyObject *arg1;
+
+  if (!PyArg_UnpackTuple(args, "Clear", 2, 2, &arg0, &arg1))
+    return NULL;
+
+  x0 = _cffi_to_c_int(arg0, uint16_t);
+  if (x0 == (uint16_t)-1 && PyErr_Occurred())
+    return NULL;
+
+  x1 = _cffi_to_c_int(arg1, uint16_t);
+  if (x1 == (uint16_t)-1 && PyErr_Occurred())
+    return NULL;
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { result = Clear(x0, x1); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  return _cffi_from_c_pointer((char *)result, _cffi_type(22));
+}
+#else
+#  define _cffi_f_Clear _cffi_d_Clear
 #endif
 
 static void _cffi_d_Close(void)
@@ -549,7 +588,7 @@ _cffi_f_Flush(PyObject *self, PyObject *noarg)
 
   (void)self; /* unused */
   (void)noarg; /* unused */
-  return _cffi_from_c_pointer((char *)result, _cffi_type(21));
+  return _cffi_from_c_pointer((char *)result, _cffi_type(22));
 }
 #else
 #  define _cffi_f_Flush _cffi_d_Flush
@@ -597,7 +636,7 @@ _cffi_f_Init(PyObject *self, PyObject *noarg)
 
   (void)self; /* unused */
   (void)noarg; /* unused */
-  return _cffi_from_c_pointer((char *)result, _cffi_type(21));
+  return _cffi_from_c_pointer((char *)result, _cffi_type(22));
 }
 #else
 #  define _cffi_f_Init _cffi_d_Init
@@ -645,7 +684,7 @@ _cffi_f_PollEvent(PyObject *self, PyObject *noarg)
 
   (void)self; /* unused */
   (void)noarg; /* unused */
-  return _cffi_from_c_struct((char *)&result, _cffi_type(39));
+  return _cffi_from_c_struct((char *)&result, _cffi_type(40));
 }
 #else
 static void _cffi_f_PollEvent(Event *result)
@@ -822,7 +861,7 @@ _cffi_f_Size(PyObject *self, PyObject *noarg)
 
   (void)self; /* unused */
   (void)noarg; /* unused */
-  return _cffi_from_c_struct((char *)&result, _cffi_type(40));
+  return _cffi_from_c_struct((char *)&result, _cffi_type(41));
 }
 #else
 static void _cffi_f_Size(SizeTuple *result)
@@ -849,7 +888,7 @@ _cffi_f_Sync(PyObject *self, PyObject *noarg)
 
   (void)self; /* unused */
   (void)noarg; /* unused */
-  return _cffi_from_c_pointer((char *)result, _cffi_type(21));
+  return _cffi_from_c_pointer((char *)result, _cffi_type(22));
 }
 #else
 #  define _cffi_f_Sync _cffi_d_Sync
@@ -867,13 +906,13 @@ _cffi_f_freeCells(PyObject *self, PyObject *arg0)
   Py_ssize_t datasize;
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(12), arg0, (char **)&x0);
+      _cffi_type(16), arg0, (char **)&x0);
   if (datasize != 0) {
     if (datasize < 0)
       return NULL;
     x0 = (CellSlice *)alloca((size_t)datasize);
     memset((void *)x0, 0, (size_t)datasize);
-    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(12), arg0) < 0)
+    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(16), arg0) < 0)
       return NULL;
   }
 
@@ -903,13 +942,13 @@ _cffi_f_freeEvent(PyObject *self, PyObject *arg0)
   Py_ssize_t datasize;
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(15), arg0, (char **)&x0);
+      _cffi_type(19), arg0, (char **)&x0);
   if (datasize != 0) {
     if (datasize < 0)
       return NULL;
     x0 = (Event *)alloca((size_t)datasize);
     memset((void *)x0, 0, (size_t)datasize);
-    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(15), arg0) < 0)
+    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(19), arg0) < 0)
       return NULL;
   }
 
@@ -927,42 +966,6 @@ _cffi_f_freeEvent(PyObject *self, PyObject *arg0)
 #  define _cffi_f_freeEvent _cffi_d_freeEvent
 #endif
 
-static void _cffi_d_freeSize(SizeTuple * x0)
-{
-  freeSize(x0);
-}
-#ifndef PYPY_VERSION
-static PyObject *
-_cffi_f_freeSize(PyObject *self, PyObject *arg0)
-{
-  SizeTuple * x0;
-  Py_ssize_t datasize;
-
-  datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(18), arg0, (char **)&x0);
-  if (datasize != 0) {
-    if (datasize < 0)
-      return NULL;
-    x0 = (SizeTuple *)alloca((size_t)datasize);
-    memset((void *)x0, 0, (size_t)datasize);
-    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(18), arg0) < 0)
-      return NULL;
-  }
-
-  Py_BEGIN_ALLOW_THREADS
-  _cffi_restore_errno();
-  { freeSize(x0); }
-  _cffi_save_errno();
-  Py_END_ALLOW_THREADS
-
-  (void)self; /* unused */
-  Py_INCREF(Py_None);
-  return Py_None;
-}
-#else
-#  define _cffi_f_freeSize _cffi_d_freeSize
-#endif
-
 static void _cffi_d_freeString(char * x0)
 {
   freeString(x0);
@@ -975,13 +978,13 @@ _cffi_f_freeString(PyObject *self, PyObject *arg0)
   Py_ssize_t datasize;
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(21), arg0, (char **)&x0);
+      _cffi_type(22), arg0, (char **)&x0);
   if (datasize != 0) {
     if (datasize < 0)
       return NULL;
     x0 = (char *)alloca((size_t)datasize);
     memset((void *)x0, 0, (size_t)datasize);
-    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(21), arg0) < 0)
+    if (_cffi_convert_array_from_object((char *)x0, _cffi_type(22), arg0) < 0)
       return NULL;
   }
 
@@ -1050,95 +1053,95 @@ struct _cffi_align__SizeTuple { char x; SizeTuple y; };
 
 static const struct _cffi_global_s _cffi_globals[] = {
   { "CellBuffer", (void *)_cffi_f_CellBuffer, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 0), (void *)_cffi_d_CellBuffer },
-  { "Close", (void *)_cffi_f_Close, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 34), (void *)_cffi_d_Close },
-  { "Flush", (void *)_cffi_f_Flush, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 6), (void *)_cffi_d_Flush },
-  { "HideCursor", (void *)_cffi_f_HideCursor, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 34), (void *)_cffi_d_HideCursor },
-  { "Init", (void *)_cffi_f_Init, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 6), (void *)_cffi_d_Init },
-  { "Interrupt", (void *)_cffi_f_Interrupt, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 34), (void *)_cffi_d_Interrupt },
+  { "Clear", (void *)_cffi_f_Clear, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 6), (void *)_cffi_d_Clear },
+  { "Close", (void *)_cffi_f_Close, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 35), (void *)_cffi_d_Close },
+  { "Flush", (void *)_cffi_f_Flush, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 10), (void *)_cffi_d_Flush },
+  { "HideCursor", (void *)_cffi_f_HideCursor, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 35), (void *)_cffi_d_HideCursor },
+  { "Init", (void *)_cffi_f_Init, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 10), (void *)_cffi_d_Init },
+  { "Interrupt", (void *)_cffi_f_Interrupt, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 35), (void *)_cffi_d_Interrupt },
   { "PollEvent", (void *)_cffi_f_PollEvent, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 2), (void *)_cffi_d_PollEvent },
-  { "SetCell", (void *)_cffi_f_SetCell, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 27), (void *)_cffi_d_SetCell },
-  { "SetCursor", (void *)_cffi_f_SetCursor, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 23), (void *)_cffi_d_SetCursor },
-  { "SetInputMode", (void *)_cffi_f_SetInputMode, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 8), (void *)_cffi_d_SetInputMode },
-  { "SetOutputMode", (void *)_cffi_f_SetOutputMode, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 8), (void *)_cffi_d_SetOutputMode },
+  { "SetCell", (void *)_cffi_f_SetCell, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 28), (void *)_cffi_d_SetCell },
+  { "SetCursor", (void *)_cffi_f_SetCursor, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 24), (void *)_cffi_d_SetCursor },
+  { "SetInputMode", (void *)_cffi_f_SetInputMode, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 12), (void *)_cffi_d_SetInputMode },
+  { "SetOutputMode", (void *)_cffi_f_SetOutputMode, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 12), (void *)_cffi_d_SetOutputMode },
   { "Size", (void *)_cffi_f_Size, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 4), (void *)_cffi_d_Size },
-  { "Sync", (void *)_cffi_f_Sync, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 6), (void *)_cffi_d_Sync },
-  { "freeCells", (void *)_cffi_f_freeCells, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 11), (void *)_cffi_d_freeCells },
-  { "freeEvent", (void *)_cffi_f_freeEvent, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 14), (void *)_cffi_d_freeEvent },
-  { "freeSize", (void *)_cffi_f_freeSize, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 17), (void *)_cffi_d_freeSize },
-  { "freeString", (void *)_cffi_f_freeString, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 20), (void *)_cffi_d_freeString },
+  { "Sync", (void *)_cffi_f_Sync, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 10), (void *)_cffi_d_Sync },
+  { "freeCells", (void *)_cffi_f_freeCells, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 15), (void *)_cffi_d_freeCells },
+  { "freeEvent", (void *)_cffi_f_freeEvent, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 18), (void *)_cffi_d_freeEvent },
+  { "freeString", (void *)_cffi_f_freeString, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 21), (void *)_cffi_d_freeString },
 };
 
 static const struct _cffi_field_s _cffi_fields[] = {
   { "Ch", offsetof(Cell, Ch),
           sizeof(((Cell *)0)->Ch),
-          _CFFI_OP(_CFFI_OP_NOOP, 30) },
+          _CFFI_OP(_CFFI_OP_NOOP, 31) },
   { "Fg", offsetof(Cell, Fg),
           sizeof(((Cell *)0)->Fg),
-          _CFFI_OP(_CFFI_OP_NOOP, 31) },
+          _CFFI_OP(_CFFI_OP_NOOP, 7) },
   { "Bg", offsetof(Cell, Bg),
           sizeof(((Cell *)0)->Bg),
-          _CFFI_OP(_CFFI_OP_NOOP, 31) },
+          _CFFI_OP(_CFFI_OP_NOOP, 7) },
   { "data", offsetof(CellSlice, data),
             sizeof(((CellSlice *)0)->data),
-            _CFFI_OP(_CFFI_OP_NOOP, 36) },
+            _CFFI_OP(_CFFI_OP_NOOP, 37) },
   { "len", offsetof(CellSlice, len),
            sizeof(((CellSlice *)0)->len),
-           _CFFI_OP(_CFFI_OP_NOOP, 9) },
+           _CFFI_OP(_CFFI_OP_NOOP, 13) },
   { "Type", offsetof(Event, Type),
             sizeof(((Event *)0)->Type),
-            _CFFI_OP(_CFFI_OP_NOOP, 42) },
+            _CFFI_OP(_CFFI_OP_NOOP, 43) },
   { "Mod", offsetof(Event, Mod),
            sizeof(((Event *)0)->Mod),
-           _CFFI_OP(_CFFI_OP_NOOP, 42) },
+           _CFFI_OP(_CFFI_OP_NOOP, 43) },
   { "Key", offsetof(Event, Key),
            sizeof(((Event *)0)->Key),
-           _CFFI_OP(_CFFI_OP_NOOP, 31) },
+           _CFFI_OP(_CFFI_OP_NOOP, 7) },
   { "Ch", offsetof(Event, Ch),
           sizeof(((Event *)0)->Ch),
-          _CFFI_OP(_CFFI_OP_NOOP, 30) },
+          _CFFI_OP(_CFFI_OP_NOOP, 31) },
   { "Width", offsetof(Event, Width),
              sizeof(((Event *)0)->Width),
-             _CFFI_OP(_CFFI_OP_NOOP, 9) },
+             _CFFI_OP(_CFFI_OP_NOOP, 13) },
   { "Height", offsetof(Event, Height),
               sizeof(((Event *)0)->Height),
-              _CFFI_OP(_CFFI_OP_NOOP, 9) },
+              _CFFI_OP(_CFFI_OP_NOOP, 13) },
   { "Err", offsetof(Event, Err),
            sizeof(((Event *)0)->Err),
-           _CFFI_OP(_CFFI_OP_NOOP, 21) },
+           _CFFI_OP(_CFFI_OP_NOOP, 22) },
   { "MouseX", offsetof(Event, MouseX),
               sizeof(((Event *)0)->MouseX),
-              _CFFI_OP(_CFFI_OP_NOOP, 9) },
+              _CFFI_OP(_CFFI_OP_NOOP, 13) },
   { "MouseY", offsetof(Event, MouseY),
               sizeof(((Event *)0)->MouseY),
-              _CFFI_OP(_CFFI_OP_NOOP, 9) },
+              _CFFI_OP(_CFFI_OP_NOOP, 13) },
   { "N", offsetof(Event, N),
          sizeof(((Event *)0)->N),
-         _CFFI_OP(_CFFI_OP_NOOP, 9) },
+         _CFFI_OP(_CFFI_OP_NOOP, 13) },
   { "width", offsetof(SizeTuple, width),
              sizeof(((SizeTuple *)0)->width),
-             _CFFI_OP(_CFFI_OP_NOOP, 9) },
+             _CFFI_OP(_CFFI_OP_NOOP, 13) },
   { "height", offsetof(SizeTuple, height),
               sizeof(((SizeTuple *)0)->height),
-              _CFFI_OP(_CFFI_OP_NOOP, 9) },
+              _CFFI_OP(_CFFI_OP_NOOP, 13) },
 };
 
 static const struct _cffi_struct_union_s _cffi_struct_unions[] = {
-  { "Cell", 37, _CFFI_F_CHECK_FIELDS,
+  { "Cell", 38, _CFFI_F_CHECK_FIELDS,
     sizeof(Cell), offsetof(struct _cffi_align__Cell, y), 0, 3 },
-  { "CellSlice", 38, _CFFI_F_CHECK_FIELDS,
+  { "CellSlice", 39, _CFFI_F_CHECK_FIELDS,
     sizeof(CellSlice), offsetof(struct _cffi_align__CellSlice, y), 3, 2 },
-  { "Event", 39, _CFFI_F_CHECK_FIELDS,
+  { "Event", 40, _CFFI_F_CHECK_FIELDS,
     sizeof(Event), offsetof(struct _cffi_align__Event, y), 5, 10 },
-  { "SizeTuple", 40, _CFFI_F_CHECK_FIELDS,
+  { "SizeTuple", 41, _CFFI_F_CHECK_FIELDS,
     sizeof(SizeTuple), offsetof(struct _cffi_align__SizeTuple, y), 15, 2 },
 };
 
 static const struct _cffi_typename_s _cffi_typenames[] = {
-  { "Cell", 37 },
-  { "CellSlice", 38 },
-  { "Error", 21 },
-  { "Event", 39 },
-  { "SizeTuple", 40 },
+  { "Cell", 38 },
+  { "CellSlice", 39 },
+  { "Error", 22 },
+  { "Event", 40 },
+  { "SizeTuple", 41 },
 };
 
 static const struct _cffi_type_context_s _cffi_type_context = {
@@ -1153,7 +1156,7 @@ static const struct _cffi_type_context_s _cffi_type_context = {
   0,  /* num_enums */
   5,  /* num_typenames */
   NULL,  /* no includes */
-  44,  /* num_types */
+  45,  /* num_types */
   0,  /* flags */
 };
 

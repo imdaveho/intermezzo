@@ -1,11 +1,11 @@
 /* Created by "go tool cgo" - DO NOT EDIT. */
 
-/* package github.com/imdaveho/intermezzo/intermezzo/libs/intermezzo/build */
+/* package github.com/imdaveho/intermezzo/intermezzo/libs/intermezzo */
 
 /* Start of preamble from import "C" comments.  */
 
 
-#line 3 "/home/vagrant/development/gopher/workspace/src/github.com/imdaveho/intermezzo/intermezzo/libs/intermezzo/build/wrapper.go"
+#line 3 "/home/vagrant/development/gopher/workspace/src/github.com/imdaveho/intermezzo/intermezzo/libs/intermezzo/wrapper.go"
 
 #include "interop.h"
 
@@ -68,8 +68,6 @@ extern void freeCells(CellSlice* p0);
 
 extern void freeString(char* p0);
 
-extern void freeSize(SizeTuple* p0);
-
 extern void freeEvent(Event* p0);
 
 /****************************************************
@@ -77,6 +75,8 @@ extern void freeEvent(Event* p0);
 ****************************************************/
 
 extern CellSlice* CellBuffer();
+
+extern Error Clear(uint16_t p0, uint16_t p1);
 
 extern void Close();
 
@@ -94,7 +94,7 @@ extern void SetCursor(int p0, int p1);
 
 extern SizeTuple Size();
 
-extern char* Sync();
+extern Error Sync();
 
 extern Event PollEvent();
 

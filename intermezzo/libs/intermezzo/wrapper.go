@@ -22,10 +22,22 @@ func freeString(str *C.char) {
 	C.freeCString(str)
 }
 
-//export freeSize
-func freeSize(ptr *C.SizeTuple) {
-	C.freeCSizeTuple(ptr)
-}
+// NOTE: cgo may GC structs created in Go;
+// this means that we don't have to manually
+// free since we didn't use malloc to create
+// the C.SizeTuple and C.Event except in the
+// case of C.Event->Err (which is a char*)
+// and cgo specifically says to make sure to
+// free the memory allocated for char*
+
+// TODO: confirm the above; or to be sure,
+// create the structs in C like CellBuffer
+// and return the pointers to each
+
+// //export freeSize
+// func freeSize(ptr *C.SizeTuple) {
+// 	C.freeCSizeTuple(ptr)
+// }
 
 //export freeEvent
 func freeEvent(ptr *C.Event) {
@@ -50,6 +62,19 @@ func CellBuffer() *C.CellSlice {
 	return cells
 	// for freeing memory, freeCells() would be called
 	// from a Python CFFI interface wrapping this func
+}
+
+//export Clear
+func Clear(fg, bg C.uint16_t) C.Error {
+	_fg := termbox.Attribute(fg)
+	_bg := termbox.Attribute(bg)
+	err := termbox.Clear(_fg, _bg)
+	if err != nil {
+		return C.CString(err.Error())
+	} else {
+		return C.CString("")
+	}
+	// remember to free the CString!
 }
 
 //export Close
@@ -117,7 +142,7 @@ func Size() C.SizeTuple {
 }
 
 //export Sync
-func Sync() *C.char {
+func Sync() C.Error {
 	err := termbox.Sync()
 	if err != nil {
 		return C.CString(err.Error())

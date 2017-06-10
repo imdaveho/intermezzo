@@ -41,22 +41,22 @@ typedef struct Event
 
 void freeCells(CellSlice* p0);
 void freeString(char* p0);
-void freeSize(SizeTuple* p0);
 void freeEvent(Event* p0);
 
-CellSlice* CellBuffer();
-void Close();
-Error Flush();
-void HideCursor();
-Error Init();
-void Interrupt();
-void SetCell(int p0, int p1, int32_t p2, uint16_t p3, uint16_t p4);
-void SetCursor(int p0, int p1);
-SizeTuple Size();
-char* Sync();
-Event PollEvent();
-int SetInputMode(int p0);
-int SetOutputMode(int p0);
+CellSlice*  CellBuffer();
+Error       Clear(uint16_t p0, uint16_t p1);
+void        Close();
+Error       Flush();
+void        HideCursor();
+Error       Init();
+void        Interrupt();
+void        SetCell(int p0, int p1, int32_t p2, uint16_t p3, uint16_t p4);
+void        SetCursor(int p0, int p1);
+SizeTuple   Size();
+Error       Sync();
+Event       PollEvent();
+int         SetInputMode(int p0);
+int         SetOutputMode(int p0);
 """
 )
 
@@ -69,4 +69,4 @@ extra_link_args=["-Wl,-rpath=$ORIGIN"]
 )
 
 if __name__ == "__main__":
-    ffibuilder.compile(tmpdir="..", verbose=True)
+    ffibuilder.compile(verbose=True)
