@@ -439,7 +439,7 @@ static void (*_cffi_call_python_org)(struct _cffi_externpy_s *, char *);
 static void *_cffi_types[] = {
 /*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 16), // CellSlice *()(void)
 /*  1 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  2 */ _CFFI_OP(_CFFI_OP_FUNCTION, 40), // Event()(void)
+/*  2 */ _CFFI_OP(_CFFI_OP_FUNCTION, 19), // Event *()(void)
 /*  3 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
 /*  4 */ _CFFI_OP(_CFFI_OP_FUNCTION, 41), // SizeTuple()(void)
 /*  5 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
@@ -666,7 +666,7 @@ _cffi_f_Interrupt(PyObject *self, PyObject *noarg)
 #  define _cffi_f_Interrupt _cffi_d_Interrupt
 #endif
 
-static Event _cffi_d_PollEvent(void)
+static Event * _cffi_d_PollEvent(void)
 {
   return PollEvent();
 }
@@ -674,7 +674,7 @@ static Event _cffi_d_PollEvent(void)
 static PyObject *
 _cffi_f_PollEvent(PyObject *self, PyObject *noarg)
 {
-  Event result;
+  Event * result;
 
   Py_BEGIN_ALLOW_THREADS
   _cffi_restore_errno();
@@ -684,13 +684,10 @@ _cffi_f_PollEvent(PyObject *self, PyObject *noarg)
 
   (void)self; /* unused */
   (void)noarg; /* unused */
-  return _cffi_from_c_struct((char *)&result, _cffi_type(40));
+  return _cffi_from_c_pointer((char *)result, _cffi_type(19));
 }
 #else
-static void _cffi_f_PollEvent(Event *result)
-{
-  { *result = PollEvent(); }
-}
+#  define _cffi_f_PollEvent _cffi_d_PollEvent
 #endif
 
 static void _cffi_d_SetCell(int x0, int x1, int32_t x2, uint16_t x3, uint16_t x4)

@@ -2,20 +2,20 @@ from .py_api import lib, ffi
 
 class Intermezzo:
     def cell_buffer(self):
-        cellslice = lib.CellBuffer()
+        cellslice_ptr = lib.CellBuffer()
         buffer = []
-        for i in range(cellslice.len):
-            ch = cellslice.data[i].Ch
-            fg = cellslice.data[i].Fg
-            bg = cellslice.data[i].Bg
+        for i in range(cellslice_ptr.len):
+            ch = cellslice_ptr.data[i].Ch
+            fg = cellslice_ptr.data[i].Fg
+            bg = cellslice_ptr.data[i].Bg
             buffer.append({
                 "Ch": ch,
                 "Fg": fg,
                 "Bg": bg,
             })
         # free that CellSlice* memory!
-        lib.freeCells(cellslice)
-        del cellslice
+        lib.freeCells(cellslice_ptr)
+        del cellslice_ptr
         return buffer
 
     def clear(self, fg, bg):
@@ -71,24 +71,22 @@ class Intermezzo:
         return err
 
     def poll_event(self):
-        cevt = lib.PollEvent()
+        event_ptr = lib.PollEvent()
         pyevt = {
-            "Type":   cevt.Type,
-            "Mod":    cevt.Mod,
-            "Key":    cevt.Key,
-            "Ch":     cevt.Ch,
-            "Width":  cevt.Width,
-            "Height": cevt.Height,
-            "Err":    ffi.string(cevt.Err),
-            "MouseX": cevt.MouseX,
-            "MouseY": cevt.MouseY,
-            "N":      cevt.N
+            "Type":   event_ptr.Type,
+            "Mod":    event_ptr.Mod,
+            "Key":    event_ptr.Key,
+            "Ch":     event_ptr.Ch,
+            "Width":  event_ptr.Width,
+            "Height": event_ptr.Height,
+            "Err":    ffi.string(event_ptr.Err).decode("utf-8"),
+            "MouseX": event_ptr.MouseX,
+            "MouseY": event_ptr.MouseY,
+            "N":      event_ptr.N
         }
-        # TODO: confirm memory usage and lifecycle
-        cevt_ptr = ffi.addressof(cevt)
-        lib.freeEvent(cevt_ptr)
-        del cevt_ptr
-        del cevt
+        # free that Event* (and char*) memory!
+        lib.freeEvent(event_ptr)
+        del event_ptr
         return pyevt
 
     def set_input_mode(self, mode):

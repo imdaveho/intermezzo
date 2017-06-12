@@ -96,7 +96,7 @@ extern SizeTuple Size();
 
 extern Error Sync();
 
-extern Event PollEvent();
+extern Event* PollEvent();
 
 extern int SetInputMode(int p0);
 

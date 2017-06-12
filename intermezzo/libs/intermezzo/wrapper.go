@@ -22,27 +22,21 @@ func freeString(str *C.char) {
 	C.freeCString(str)
 }
 
+//export freeEvent
+func freeEvent(ptr *C.Event) {
+	C.freeCEvent(ptr)
+}
+
 // NOTE: cgo may GC structs created in Go;
 // this means that we don't have to manually
 // free since we didn't use malloc to create
-// the C.SizeTuple and C.Event except in the
-// case of C.Event->Err (which is a char*)
-// and cgo specifically says to make sure to
-// free the memory allocated for char*
-
-// TODO: confirm the above; or to be sure,
-// create the structs in C like CellBuffer
-// and return the pointers to each
+// the C.SizeTuple
+// TODO: confirm the above
 
 // //export freeSize
 // func freeSize(ptr *C.SizeTuple) {
 // 	C.freeCSizeTuple(ptr)
 // }
-
-//export freeEvent
-func freeEvent(ptr *C.Event) {
-	C.freeCEvent(ptr)
-}
 
 /****************************************************
 * Termbox-Go API Wrappers                           *
@@ -153,21 +147,25 @@ func Sync() C.Error {
 }
 
 //export PollEvent
-func PollEvent() C.Event {
+func PollEvent() *C.Event {
 	evt := termbox.PollEvent()
-	cevt := C.Event{
-		Type:   C.uint8_t(evt.Type),
-		Mod:    C.uint8_t(evt.Mod),
-		Key:    C.uint16_t(evt.Key),
-		Ch:     C.int32_t(evt.Ch),
-		Width:  C.int(evt.Width),
-		Height: C.int(evt.Height),
-		Err:    C.CString(evt.Err.Error()),
-		MouseX: C.int(evt.MouseX),
-		MouseY: C.int(evt.MouseY),
-		N:      C.int(evt.N),
+	evt_ptr := C.createEvent()
+	evt_ptr.Type = C.uint8_t(evt.Type)
+	evt_ptr.Mod = C.uint8_t(evt.Mod)
+	evt_ptr.Key = C.uint16_t(evt.Key)
+	evt_ptr.Ch = C.int32_t(evt.Ch)
+	evt_ptr.Width = C.int(evt.Width)
+	evt_ptr.Height = C.int(evt.Height)
+	if evt.Err != nil {
+		evt_ptr.Err = C.CString(evt.Err.Error())
+	} else {
+		evt_ptr.Err = C.CString("")
 	}
-	return cevt
+	evt_ptr.MouseX = C.int(evt.MouseX)
+	evt_ptr.MouseY = C.int(evt.MouseY)
+	evt_ptr.N = C.int(evt.N)
+
+	return evt_ptr
 }
 
 //export SetInputMode

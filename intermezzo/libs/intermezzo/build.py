@@ -54,7 +54,7 @@ void        SetCell(int p0, int p1, int32_t p2, uint16_t p3, uint16_t p4);
 void        SetCursor(int p0, int p1);
 SizeTuple   Size();
 Error       Sync();
-Event       PollEvent();
+Event*      PollEvent();
 int         SetInputMode(int p0);
 int         SetOutputMode(int p0);
 """

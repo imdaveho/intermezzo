@@ -43,9 +43,10 @@ typedef struct Event
 
 CellSlice *createCells(int len);
 void insertCells(CellSlice *ptr, Cell cell, int index);
+Event *createEvent(void);
 void freeCCells(CellSlice *ptr);
 void freeCString(char *str);
-void freeCSizeTuple(SizeTuple *ptr);
 void freeCEvent(Event *ptr);
+/* void freeCSizeTuple(SizeTuple *ptr); */
 
 #endif
