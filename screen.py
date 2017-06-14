@@ -1,6 +1,6 @@
 import time
 import asyncio
-from libs.intermezzo import Intermezzo as mzo
+from intermezzo import Intermezzo as mzo
 
 
 def tbPrint(x, y, fg, bg, msg):

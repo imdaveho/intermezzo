@@ -1,14 +1,106 @@
 /* Created by "go tool cgo" - DO NOT EDIT. */
 
-/* package command-line-arguments */
+/* package github.com/imdaveho/intermezzo/intermezzo/build */
 
 /* Start of preamble from import "C" comments.  */
 
 
-#line 3 "/home/vagrant/development/intermezzo/workspace/src/github.com/imdaveho/intermezzo/intermezzo/build/api.go"
+#line 3 "/home/vagrant/development/gopher/workspace/src/github.com/imdaveho/intermezzo/intermezzo/build/libtermbox.go"
 
 
-#include "interop.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Cell
+{
+  int32_t  Ch;
+  uint16_t Fg;
+  uint16_t Bg;
+} Cell;
+
+typedef struct CellSlice
+{
+  Cell* data;
+  int   len;
+} CellSlice;
+
+typedef struct SizeTuple
+{
+  int width;
+  int height;
+} SizeTuple;
+
+typedef char* Error;
+
+typedef struct Event
+{
+  uint8_t  Type;
+  uint8_t  Mod;
+  uint16_t Key;
+  int32_t  Ch;
+  int      Width;
+  int      Height;
+  Error    Err;
+  int      MouseX;
+  int      MouseY;
+  int      N;
+} Event;
+
+
+static CellSlice *createCells(int len)
+{
+  CellSlice *ptr = malloc(sizeof(CellSlice));
+  if (ptr == NULL) {
+    return NULL;
+  }
+  Cell *cells = malloc(sizeof(Cell) * len);
+  if (cells == NULL) {
+    return NULL;
+  }
+  ptr->data = cells;
+  ptr->len = len;
+  return ptr;
+}
+
+static void insertCells(CellSlice *ptr, Cell cell, int index)
+{
+  ptr->data[index] = cell;
+}
+
+static Event *createEvent(void)
+{
+  Event *ptr = malloc(sizeof(Event));
+  if (ptr == NULL) {
+    return NULL;
+  }
+  return ptr;
+}
+
+static void freeCCells(CellSlice *ptr)
+{
+  Cell *cells = ptr->data;
+  free(cells); // free Cell*
+  cells = NULL;
+  free(ptr);   // free CellSlice*
+  ptr = NULL;
+}
+
+static void freeCString(char *str)
+{
+  free(str);
+  str = NULL;
+}
+
+static void freeCEvent(Event *ptr)
+{
+  Error err = ptr->Err;
+  free(err);
+  err = NULL;
+  free(ptr);
+  ptr = NULL;
+}
 
 #line 1 "cgo-generated-wrapper"
 

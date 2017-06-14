@@ -1,4 +1,4 @@
-from .py_api import lib, ffi
+from ._intermezzo import lib, ffi
 
 class Intermezzo:
     @staticmethod

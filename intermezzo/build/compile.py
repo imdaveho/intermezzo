@@ -70,19 +70,16 @@ if platform.processor() == 'x86_64':
         # TODO: add build process of Mac OS libs
         pass
     elif platform.system() == "Linux":
-        # path = os.path.dirname(os.path.abspath(__file__))
-        # ffibuilder.set_source("_intermezzo", '#include "{}"'
-        #                       .format(os.path.join(path, "pkg", "intel", "linux_api.h")),
-        #     extra_objects=[os.path.join(path, "pkg", "intel", "linux_api.so")],
-        #     extra_link_args=["-L$ORIGIN/pkg/intel -llinux_api -L$ORIGIN/lib -linterop -Wl,-rpath=$ORIGIN/pkg/intel"],
-        #     extra_compile_args=["-I{} -I{}".format(os.path.join(path, "lib"),
-        #                                            os.path.join(path, "pkg", "intel"))]
-        # )
-        ffibuilder.set_source("_intermezzo", None)
+        path = os.path.dirname(os.path.abspath(__file__))
+        ffibuilder.set_source("_intermezzo", '#include "{}"'
+                              .format(os.path.join(path, "pkg", "intel", "linux_api.h")),
+            extra_objects=[os.path.join(path, "pkg", "intel", "linux_api.so")],
+            extra_link_args=["-L$ORIGIN/pkg/intel -llinux_api -Wl,-rpath=$ORIGIN/pkg/intel"],
+            extra_compile_args=["-I{}".format(os.path.join(path, "pkg", "intel"))]
+        )
 else:
     # TODO: add support for ARM libs
     pass
 
 if __name__ == "__main__":
-    # ffibuilder.compile(tmpdir="..", verbose=True)
-    ffibuilder.compile(verbose=True)
+    ffibuilder.compile(tmpdir="..", verbose=True)
