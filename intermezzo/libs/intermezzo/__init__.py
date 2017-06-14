@@ -1,7 +1,8 @@
 from .py_api import lib, ffi
 
 class Intermezzo:
-    def cell_buffer(self):
+    @staticmethod
+    def cell_buffer():
         cellslice_ptr = lib.CellBuffer()
         buffer = []
         for i in range(cellslice_ptr.len):
@@ -18,7 +19,8 @@ class Intermezzo:
         del cellslice_ptr
         return buffer
 
-    def clear(self, fg, bg):
+    @staticmethod
+    def clear(fg, bg):
         error_ptr = lib.Clear(fg, bg)
         err = ffi.string(error_ptr).decode("utf-8")
         # free that char* memory!
@@ -26,10 +28,12 @@ class Intermezzo:
         del error_ptr
         return err
 
-    def close(self):
+    @staticmethod
+    def close():
         lib.Close()
 
-    def flush(self):
+    @staticmethod
+    def flush():
         error_ptr = lib.Flush()
         err = ffi.string(error_ptr).decode("utf-8")
         # free that char* memory!
@@ -37,10 +41,12 @@ class Intermezzo:
         del error_ptr
         return err
 
-    def hide_cursor(self):
+    @staticmethod
+    def hide_cursor():
         lib.HideCursor()
 
-    def init(self):
+    @staticmethod
+    def init():
         error_ptr = lib.Init()
         err = ffi.string(error_ptr).decode("utf-8")
         # free that char* memory!
@@ -48,21 +54,26 @@ class Intermezzo:
         del error_ptr
         return err
 
-    def interrupt(self):
+    @staticmethod
+    def interrupt():
         lib.Interrupt()
 
-    def set_cell(self, x, y, ch, fg, bg):
+    @staticmethod
+    def set_cell(x, y, ch, fg, bg):
         lib.SetCell(x, y, ch, fg, bg)
 
-    def set_cursor(self, x, y):
+    @staticmethod
+    def set_cursor(x, y):
         lib.SetCursor(x, y)
 
-    def size(self):
+    @staticmethod
+    def size():
         size_tuple = lib.Size()
         w, h = size_tuple.width, size_tuple.height
         return w, h
 
-    def sync(self):
+    @staticmethod
+    def sync():
         error_ptr = lib.Sync()
         err = ffi.string(error_ptr).decode("utf-8")
         # free that char* memory!
@@ -70,7 +81,8 @@ class Intermezzo:
         del error_ptr
         return err
 
-    def poll_event(self):
+    @staticmethod
+    def poll_event():
         event_ptr = lib.PollEvent()
         pyevt = {
             "Type":   event_ptr.Type,
@@ -89,10 +101,12 @@ class Intermezzo:
         del event_ptr
         return pyevt
 
-    def set_input_mode(self, mode):
+    @staticmethod
+    def set_input_mode(mode):
         input_mode = lib.SetInputMode(mode)
         return input_mode
 
-    def set_output_mode(self, mode):
+    @staticmethod
+    def set_output_mode(mode):
         output_mode = lib.SetOutputMode(mode)
         return output_mode
