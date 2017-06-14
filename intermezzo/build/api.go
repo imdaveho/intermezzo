@@ -1,6 +1,7 @@
 package main
 
-//#cgo CFLAGS: -Wall -g
+//#cgo CFLAGS: -Wall -g -I${SRCDIR}/lib
+//#cgo LDFLAGS: -L${SRCDIR}/lib -linterop -Wl,-rpath=${SRCDIR}/lib
 //#include "interop.h"
 import "C"
 import (

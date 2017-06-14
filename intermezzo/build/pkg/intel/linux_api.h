@@ -1,11 +1,12 @@
 /* Created by "go tool cgo" - DO NOT EDIT. */
 
-/* package github.com/imdaveho/intermezzo/intermezzo/libs/intermezzo */
+/* package command-line-arguments */
 
 /* Start of preamble from import "C" comments.  */
 
 
-#line 3 "/home/vagrant/development/gopher/workspace/src/github.com/imdaveho/intermezzo/intermezzo/libs/intermezzo/wrapper.go"
+#line 3 "/home/vagrant/development/intermezzo/workspace/src/github.com/imdaveho/intermezzo/intermezzo/build/api.go"
+
 
 #include "interop.h"
 

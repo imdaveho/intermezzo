@@ -1,3 +1,5 @@
+import os
+import platform
 from cffi import FFI
 
 ffibuilder = FFI()
@@ -60,13 +62,27 @@ int         SetOutputMode(int p0);
 """
 )
 
-ffibuilder.set_source("py_api",
-"""
-#include "cgo_api.h"
-""",
-extra_objects=["cgo_api.so"],
-extra_link_args=["-Wl,-rpath=$ORIGIN"]
-)
+if platform.processor() == 'x86_64':
+    if platform.system() == "Windows":
+        # TODO: add build process for Windows libs
+        pass
+    elif platform.system() == "Darwin":
+        # TODO: add build process of Mac OS libs
+        pass
+    elif platform.system() == "Linux":
+        # path = os.path.dirname(os.path.abspath(__file__))
+        # ffibuilder.set_source("_intermezzo", '#include "{}"'
+        #                       .format(os.path.join(path, "pkg", "intel", "linux_api.h")),
+        #     extra_objects=[os.path.join(path, "pkg", "intel", "linux_api.so")],
+        #     extra_link_args=["-L$ORIGIN/pkg/intel -llinux_api -L$ORIGIN/lib -linterop -Wl,-rpath=$ORIGIN/pkg/intel"],
+        #     extra_compile_args=["-I{} -I{}".format(os.path.join(path, "lib"),
+        #                                            os.path.join(path, "pkg", "intel"))]
+        # )
+        ffibuilder.set_source("_intermezzo", None)
+else:
+    # TODO: add support for ARM libs
+    pass
 
 if __name__ == "__main__":
+    # ffibuilder.compile(tmpdir="..", verbose=True)
     ffibuilder.compile(verbose=True)
