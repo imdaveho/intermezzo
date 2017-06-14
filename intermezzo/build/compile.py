@@ -82,4 +82,4 @@ else:
     pass
 
 if __name__ == "__main__":
-    ffibuilder.compile(tmpdir="..", verbose=True)
+    ffibuilder.compile(tmpdir="./intermezzo", verbose=True)
