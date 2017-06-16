@@ -2,9 +2,9 @@ import os
 import platform
 from cffi import FFI
 
-ffibuilder = FFI()
+ffi = FFI()
 
-ffibuilder.cdef(
+ffi.cdef(
 """
 typedef struct Cell
 {
@@ -62,24 +62,7 @@ int         SetOutputMode(int p0);
 """
 )
 
-if platform.processor() == 'x86_64':
-    if platform.system() == "Windows":
-        # TODO: add build process for Windows libs
-        pass
-    elif platform.system() == "Darwin":
-        # TODO: add build process of Mac OS libs
-        pass
-    elif platform.system() == "Linux":
-        path = os.path.dirname(os.path.abspath(__file__))
-        ffibuilder.set_source("_intermezzo", '#include "{}"'
-                              .format(os.path.join(path, "pkg", "intel", "linux_api.h")),
-            extra_objects=[os.path.join(path, "pkg", "intel", "linux_api.so")],
-            extra_link_args=["-L$ORIGIN/pkg/intel -llinux_api -Wl,-rpath=$ORIGIN/pkg/intel"],
-            extra_compile_args=["-I{}".format(os.path.join(path, "pkg", "intel"))]
-        )
-else:
-    # TODO: add support for ARM libs
-    pass
+ffi.set_source("intermezzo._ffi", None)
 
 if __name__ == "__main__":
-    ffibuilder.compile(tmpdir="./intermezzo", verbose=True)
+    ffi.compile()

@@ -1,4 +1,27 @@
-from ._intermezzo import lib, ffi
+import os
+import platform
+import intermezzo
+from ._ffi import ffi
+
+
+PKGPATH = os.path.dirname(os.path.abspath(__file__))
+OS = platform.system()
+ARCH = platform.processor()
+lib = None
+
+if OS == 'Windows':
+    # TODO: add support for Win32
+    pass
+elif OS == 'Darwin':
+    # TODO: add support for MacOS
+    pass
+elif OS == 'Linux':
+    if ARCH == "x86_64":
+        lib = ffi.dlopen(os.path.join(PKGPATH, "build", "linux", "libtermbox-intel.so"))
+    else:
+        # TODO: add support for ARM and others
+        pass
+
 
 class Intermezzo:
     @staticmethod

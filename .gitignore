@@ -5,4 +5,5 @@ __pycache__
 .tool-versions
 tags
 .envrc
-_intermezzo*
+./intermezzo/build/*/*.h
+./intermezzo/build/*/*.so
