@@ -29,9 +29,10 @@ class Intermezzo:
         cellslice_ptr = lib.CellBuffer()
         buffer = []
         for i in range(cellslice_ptr.len):
-            ch = cellslice_ptr.data[i].Ch
-            fg = cellslice_ptr.data[i].Fg
-            bg = cellslice_ptr.data[i].Bg
+            cell = cellslice_ptr.data[i]
+            ch = cell.Ch
+            fg = cell.Fg
+            bg = cell.Bg
             buffer.append({
                 "Ch": ch,
                 "Fg": fg,
@@ -83,7 +84,7 @@ class Intermezzo:
 
     @staticmethod
     def set_cell(x, y, ch, fg, bg):
-        lib.SetCell(x, y, ch, fg, bg)
+        lib.SetCell(x, y, ord(ch), fg, bg)
 
     @staticmethod
     def set_cursor(x, y):
