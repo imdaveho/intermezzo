@@ -8,7 +8,7 @@ EDITBOX_WIDTH = 30
 def tbPrint(x, y, fg, bg, msg):
     for c in msg:
         mzo.set_cell(x, y, c, fg, bg)
-        x+=len(c)
+        x += len(c)
 
 def fill(x, y, w, h, cell):
     for ly in range(0, h-1):
@@ -16,48 +16,53 @@ def fill(x, y, w, h, cell):
             mzo.set_cell(x+lx, y+ly, cell["Ch"], cell["Fg"], cell["Bg"])
 
 def rune_advance_len(r, pos):
-    # TODO: confirm this returns tabstop char
-    # _r = r.decode("utf-8")
-    # if _r == '\t':
     if r == '\t':
-        return TABSTOP_LEN + (pos % TABSTOP_LEN)
-    # return len(_r)
+        return TABSTOP_LEN - (pos % TABSTOP_LEN)
     return len(r)
 
-def voffset_coffset(text, boffset):
-    text = text[:boffset]
-    coffset, voffset = 0, 0
-    while len(text) > 0:
-        # TODO: confirm .decode in Python does several
-        # things that runewidth and other string stuff
-        # that Golang needs separate libraries to do
-        # r = text.decode("utf-8")
-        r = text
-        text = text[len(r):]
-        coffset += 1
-        voffset += rune_advance_len(r, voffset)
-    return coffset, voffset
+# def voffset_coffset(text, boffset):
+#     """
+#     NOTE: unnecessary; Python string/unicode
+#     support is very good and we don't have to
+#     jump through all the hoops that Golang has
+#     to because Golang represents strings as []byte
+#     and that causes issues with unicode characters
+#     FYI - if you want unicode byte string, do
+#     something like this: '☆'.encode("utf-8")
+#     """
+#     text = text[:boffset]
+#     coffset, voffset = 0, 0
+#     while len(text) > 0:
+#         rune = text[0]
+#         text = text[len(rune):]
+#         coffset += 1
+#         voffset += rune_advance_len(rune, voffset)
+#     return coffset, voffset
 
 def byte_slice_grow():
-    # this is Python!
+    # NOTE: unnecessary; this is Python -
+    # arrays are dynamically sized already!
     pass
 
-def byte_slice_remove():
-    # this is Python!
-    pass
+def byte_slice_remove(text, start, end):
+    text = text[:start] + text[end:]
+    return text
 
-def byte_slice_insert():
-    # this is Python!
-    pass
+def byte_slice_insert(text, offset, what):
+    text = text[:offset] + what + text[offset:]
+    return text
 
 class EditBox:
     def __init__(self):
         self.text = ""
         self.line_voffset = 0
-        self.cursor_boffset = 0
-        self.cursor_voffset = 0
-        self.cursor_coffset = 0
+        self.cursor_coffset = 0 # cursor offset in unicode code points
+        self.cursor_voffset = 0 # visual cursor offset in termbox cells
         super().__init__()
+        # NOTE: unnecessary; Python doesn't have the same
+        # concerns with bytes, runes, and characters wrt
+        # unicode characters as Go does
+        # self.cursor_boffset = 0 # cursor offset in bytes
 
     def draw(self, x, y, w, h):
         self.adjust_voffset(w)
@@ -77,12 +82,9 @@ class EditBox:
             if rx >= w:
                 mzo.set_cell(x+w+1, y, '→', 0, 0)
                 break
-
-            # TODO: confirm this returns tabstop char
-            # _r = t.decode("utf-8")
-            _r = t
-            if _r == '\t':
-                for _ in range(lx, tabstop-1):
+            rune = t[0]
+            if rune == '\t':
+                while lx < tabstop:
                     rx = lx - self.line_voffset
                     if rx >= w:
                         # breaking effectively is
@@ -90,12 +92,14 @@ class EditBox:
                         break
                     if rx >= 0:
                         mzo.set_cell(x+rx, y, ' ', 0, 0)
+                    lx += 1
             else:
                 if rx >= 0:
-                    mzo.set_cell(x+rx, y, ' ', 0, 0)
-                lx += len(_r)
+                    mzo.set_cell(x+rx, y, rune, 0, 0)
+                lx += len(rune)
             # next:
-            t = t[len(_r):]
+            t = t[len(rune):]
+
         if self.line_voffset != 0:
             mzo.set_cell(x, y, '←', 0, 0)
 
@@ -117,31 +121,36 @@ class EditBox:
             if self.line_voffset < 0:
                 self.line_voffset = 0
 
-    def move_cursor_to(self, boffset):
-        self.cursor_boffset = boffset
-        self.cursor_voffset, self.cursor_coffset = voffset_coffset(self.text, boffset)
+    def move_cursor_to(self, coffset):
+        # NOTE: adaptation based on voffset_coffset() which normalized
+        # special characters and unicode from []byte in Go; not needed
+        # in Python since string handling / unicode support is built in
+        text = self.text[:coffset]
+        voffset = 0
+        while len(text) > 0:
+            rune = text[0]
+            text = text[len(rune):]
+            voffset += rune_advance_len(rune, voffset)
+        self.cursor_coffset = coffset
+        self.cursor_voffset = voffset
 
     def rune_under_cursor(self):
-        # TODO: confirm if needed in Python...
-        # return (self.text[self.cursor_boffset:]).decode("utf-8")
-        return self.text[self.cursor_boffset:]
+        return self.text[self.cursor_coffset]
 
     def rune_before_cursor(self):
-        # TODO: confirm if needed in Python...
-        # return (self.text[:self.cursor_boffset]).decode("utf-8")
-        return self.text[:self.cursor_boffset]
+        return self.text[self.cursor_coffset - 1]
 
     def move_cursor_one_rune_backward(self):
-        if self.cursor_boffset == 0:
+        if self.cursor_coffset == 0:
             return
-        size = len(self.rune_under_cursor())
-        self.move_cursor_to(self.cursor_boffset - size)
+        size = len(self.rune_before_cursor())
+        self.move_cursor_to(self.cursor_coffset - size)
 
     def move_cursor_one_rune_forward(self):
-        if self.cursor_boffset == len(self.text):
+        if self.cursor_coffset == len(self.text):
             return
         size = len(self.rune_under_cursor())
-        self.move_cursor_to(self.cursor_boffset + size)
+        self.move_cursor_to(self.cursor_coffset + size)
 
     def move_cursor_to_beginning_of_the_line(self):
         self.move_cursor_to(0)
@@ -150,25 +159,23 @@ class EditBox:
         self.move_cursor_to(len(self.text))
 
     def delete_rune_backward(self):
-        if self.cursor_boffset == 0:
+        if self.cursor_coffset == 0:
             return
         self.move_cursor_one_rune_backward()
         size = len(self.rune_under_cursor())
-        self.text = self.text[:-1] # TODO: might have to implement byte_slice_remove() after all
+        self.text = byte_slice_remove(self.text, self.cursor_coffset, self.cursor_coffset + size)
 
     def delete_rune_forward(self):
-        if self.cursor_boffset == len(self.text):
+        if self.cursor_coffset == len(self.text):
             return
         size = len(self.rune_under_cursor())
-        self.text = self.text[:-1] # TODO: might have to implement byte_slice_remove() after all
+        self.text = byte_slice_remove(self.text, self.cursor_coffset, self.cursor_coffset + size)
 
     def delete_the_rest_of_line(self):
-        self.text = self.text[:self.cursor_boffset]
+        self.text = self.text[:self.cursor_coffset]
 
-    def insert_rune(self, r):
-        # n = r.encode("utf-8")
-        # self.text = self.text + n # TODO: might have to implement byte_slice_insert() after all
-        self.text = self.text + r
+    def insert_rune(self, rune):
+        self.text = byte_slice_insert(self.text, self.cursor_coffset, rune)
         self.move_cursor_one_rune_forward()
 
     def cursorX(self):
@@ -210,8 +217,8 @@ def main():
         evt = mzo.poll_event()
         if evt["Type"] == 0:
             # EventKey
-            k = evt["Key"]
-            c = evt["Ch"]
+            k, c = evt["Key"], evt["Ch"]
+            # TODO: create dictionary or semantic constants
             if k == 27:
                 break
             elif k == 2 or k == 65515:
@@ -224,7 +231,7 @@ def main():
                 edit_box.delete_rune_forward()
             elif k == 9:
                 edit_box.insert_rune('\t')
-            elif k == 20:
+            elif k == 32:
                 edit_box.insert_rune(' ')
             elif k == 11:
                 edit_box.delete_the_rest_of_line()
