@@ -135,3 +135,121 @@ class Intermezzo:
     def set_output_mode(mode):
         output_mode = lib.SetOutputMode(mode)
         return output_mode
+
+    @staticmethod
+    def event(name):
+        return {
+            "Key":       0,
+            "Resize":    1,
+            "Error":     2,
+            "Interrupt": 3,
+            "Raw":       4,
+            "None":      5,
+        }.get(name, 5)
+
+    @staticmethod
+    def input(mode):
+        return {
+            "Current": 0,
+            "Esc":     1,
+            "Alt":     2,
+            "Mouse":   5,
+        }.get(mode, 0)
+
+    @staticmethod
+    def output(mode):
+        return {
+            "Current":   0,
+            "Normal":    1,
+            "256":       2,
+            "216":       3,
+            "Grayscale": 4,
+        }.get(mode, 0)
+
+    @staticmethod
+    def mod(name):
+        return {
+            "Alt":    1,
+            "Motion": 2,
+        }.get(name, 0)
+
+    @staticmethod
+    def key(name):
+        return {
+            "F1":             65535,
+            "F2":             65534,
+            "F3":             65533,
+            "F4":             65532,
+            "F5":             65531,
+            "F6":             65530,
+            "F7":             65529,
+            "F8":             65528,
+            "F9":             65527,
+            "F10":            65526,
+            "F11":            65525,
+            "F12":            65524,
+            "Insert":         65523,
+            "Delete":         65522,
+            "Home":           65521,
+            "End":            65520,
+            "Pgup":           65519,
+            "Pgdn":           65518,
+            "ArrowUp":        65517,
+            "ArrowDown":      65516,
+            "ArrowLeft":      65515,
+            "ArrowRight":     65514,
+
+            "MouseLeft":      65512,
+            "MouseMiddle":    65511,
+            "MouseRight":     65510,
+            "MouseRelease":   65509,
+            "MouseWheelUp":   65508,
+            "MouseWheelDown": 65507,
+
+            "CtrlTilde":      0,
+            "Ctrl2":          0,
+            "CtrlSpace":      0,
+            "CtrlA":          1,
+            "CtrlB":          2,
+            "CtrlC":          3,
+            "CtrlD":          4,
+            "CtrlE":          5,
+            "CtrlF":          6,
+            "CtrlG":          7,
+            "Backspace":      8,
+            "CtrlH":          8,
+            "Tab":            9,
+            "CtrlI":          9,
+            "CtrlJ":          10,
+            "CtrlK":          11,
+            "CtrlL":          12,
+            "Enter":          13,
+            "CtrlM":          13,
+            "CtrlN":          14,
+            "CtrlO":          15,
+            "CtrlP":          16,
+            "CtrlQ":          17,
+            "CtrlR":          18,
+            "CtrlS":          19,
+            "CtrlT":          20,
+            "CtrlU":          21,
+            "CtrlV":          22,
+            "CtrlW":          23,
+            "CtrlX":          24,
+            "CtrlY":          25,
+            "CtrlZ":          26,
+            "Esc":            27,
+            "CtrlLsqBracket": 27,
+            "Ctrl3":          27,
+            "Ctrl4":          28,
+            "CtrlBackslash":  28,
+            "Ctrl5":          29,
+            "CtrlRsqBracket": 29,
+            "Ctrl6":          30,
+            "Ctrl7":          31,
+            "CtrlSlash":      31,
+            "CtrlUnderscore": 31,
+            "Space":          32,
+            "Backspace2":     127,
+            "Ctrl8":          127,
+        }.get(name, None)

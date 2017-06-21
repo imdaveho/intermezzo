@@ -218,30 +218,30 @@ def main():
         if evt["Type"] == 0:
             # EventKey
             k, c = evt["Key"], evt["Ch"]
-            # TODO: create dictionary or semantic constants
-            if k == 27:
+            if k == mzo.key("Esc"):
                 break
-            elif k == 2 or k == 65515:
+            elif k == mzo.key("CtrlB") or k == mzo.key("ArrowLeft"):
                 edit_box.move_cursor_one_rune_backward()
-            elif k == 6 or k == 65514:
+            elif k == mzo.key("CtrlF") or k == mzo.key("ArrowRight"):
                 edit_box.move_cursor_one_rune_forward()
-            elif k == 8 or k == 127:
+            elif k == mzo.key("Backspace") or k == mzo.key("Backspace2"):
                 edit_box.delete_rune_backward()
-            elif k == 4 or k == 65522:
+            elif k == mzo.key("CtrlD") or k == mzo.key("Delete"):
                 edit_box.delete_rune_forward()
-            elif k == 9:
+            elif k == mzo.key("Tab"):
                 edit_box.insert_rune('\t')
-            elif k == 32:
+            elif k == mzo.key("Space"):
                 edit_box.insert_rune(' ')
-            elif k == 11:
+            elif k == mzo.key("CtrlK"):
                 edit_box.delete_the_rest_of_line()
-            elif k == 1 or k == 65521:
+            elif k == mzo.key("Home") or k == mzo.key("CtrlA"):
                 edit_box.move_cursor_to_beginning_of_the_line()
-            elif k == 5 or k == 65520:
+            elif k == mzo.key("End") or k == mzo.key("CtrlE"):
                 edit_box.move_cursor_to_the_end_of_the_line()
             else:
                 if c != 0:
                     edit_box.insert_rune(chr(c))
+
         elif evt["Type"] == 3:
             # EventError
             raise(Exception(evt["Err"]))
