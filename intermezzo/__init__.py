@@ -13,10 +13,11 @@ if OS == 'Windows':
     # TODO: add support for Win32
     pass
 elif OS == 'Darwin':
-    # TODO: add support for MacOS
+    if ARCH == "x86_64" or ARCH == "i386":
+        lib = ffi.dlopen(os.path.join(PKGPATH, "build", "macos", "libtermbox-intel.so"))
     pass
 elif OS == 'Linux':
-    if ARCH == "x86_64":
+    if ARCH == "x86_64" or ARCH == "i386":
         lib = ffi.dlopen(os.path.join(PKGPATH, "build", "linux", "libtermbox-intel.so"))
     else:
         # TODO: add support for ARM and others
