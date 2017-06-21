@@ -11,8 +11,8 @@ def tbPrint(x, y, fg, bg, msg):
         x += len(c)
 
 def fill(x, y, w, h, cell):
-    for ly in range(0, h-1):
-        for lx in range(0, w-1):
+    for ly in range(0, h):
+        for lx in range(0, w):
             mzo.set_cell(x+lx, y+ly, cell["Ch"], cell["Fg"], cell["Bg"])
 
 def rune_advance_len(r, pos):
