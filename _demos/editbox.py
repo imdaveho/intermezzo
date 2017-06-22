@@ -210,7 +210,7 @@ def main():
     err = mzo.init()
     if err:
         raise(Exception(err))
-    mzo.set_input_mode(1)
+    mzo.set_input_mode(mzo.input("Esc"))
     redraw_all()
 
     while True:

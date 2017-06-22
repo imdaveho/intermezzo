@@ -47,7 +47,10 @@ K_EQUALS = [{"x": 37, "y": 4, "ch": '='}]
 K_EQUALS_SHIFT = [{"x": 37, "y": 4, "ch": '+'}]
 K_BACKSLASH = [{"x": 40, "y": 4, "ch": '\\'}]
 K_BACKSLASH_SHIFT = [{"x": 40, "y": 4, "ch": '|'}]
-K_BACKSPACE = [{"x": 44, "y": 4, "ch": chr(int("0x2190"))}, {"x": 45, "y": 4, "ch": chr(int("0x2190"))}, {"x": 46, "y": 4, "ch": chr(int("0x2190"))}]
+K_BACKSPACE = [
+    {"x": 44, "y": 4, "ch": chr(int("0x2190", 16))},
+    {"x": 45, "y": 4, "ch": chr(int("0x2500", 16))},
+    {"x": 46, "y": 4, "ch": chr(int("0x2500", 16))}]
 K_INS = [{"x": 50, "y": 4, "ch": 'I'}, {"x": 51, "y": 4, "ch": 'N'}, {"x": 52, "y": 4, "ch": 'S'}]
 K_HOM = [{"x": 54, "y": 4, "ch": 'H'}, {"x": 55, "y": 4, "ch": 'O'}, {"x": 56, "y": 4, "ch": 'M'}]
 K_PGU = [{"x": 58, "y": 4, "ch": 'P'}, {"x": 59, "y": 4, "ch": 'G'}, {"x": 60, "y": 4, "ch": 'U'}]
@@ -165,7 +168,10 @@ K_K_ENTER = [
     {"x": 74, "y": 11, "ch": chr(int("0x2591", 16))},
     {"x": 74, "y": 12, "ch": chr(int("0x2591", 16))}
 ]
-K_LCTRL = [{"x": 1, "y": 12, "ch": 'C'}, {"x": 2, "y": 12, "ch": 'T'}, {"x": 3, "y": 12, "ch": 'R'}, {"x": 4, "y": 12, "ch": 'L'}]
+K_LCTRL = [
+    {"x": 1, "y": 12, "ch": 'C'}, {"x": 2, "y": 12, "ch": 'T'},
+    {"x": 3, "y": 12, "ch": 'R'}, {"x": 4, "y": 12, "ch": 'L'}
+]
 K_LWIN = [{"x": 6, "y": 12, "ch": 'W'}, {"x": 7, "y": 12, "ch": 'I'}, {"x": 8, "y": 12, "ch": 'N'}]
 K_LALT = [{"x": 10, "y": 12, "ch": 'A'}, {"x": 11, "y": 12, "ch": 'L'}, {"x": 12, "y": 12, "ch": 'T'}]
 K_SPACE = [
@@ -177,17 +183,32 @@ K_SPACE = [
 ]
 K_RALT = [{"x": 30, "y": 12, "ch": 'A'}, {"x": 31, "y": 12, "ch": 'L'}, {"x": 32, "y": 12, "ch": 'T'}]
 K_RWIN = [{"x": 34, "y": 12, "ch": 'W'}, {"x": 35, "y": 12, "ch": 'I'}, {"x": 36, "y": 12, "ch": 'N'}]
-K_RPROP = [{"x": 38, "y": 12, "ch": 'P'}, {"x": 39, "y": 12, "ch": 'R'}, {"x": 40, "y": 12, "ch": 'O'}, {"x": 41, "y": 12, "ch": 'P'}]
-K_RCTRL = [{"x": 43, "y": 12, "ch": 'C'}, {"x": 44, "y": 12, "ch": 'T'}, {"x": 45, "y": 12, "ch": 'R'}, {"x": 46, "y": 12, "ch": 'L'}]
-K_ARROW_LEFT = [{"x": 50, "y": 12, "ch": '('}, {"x": 51, "y": 12, "ch": chr(int("0x2190", 16))}, {"x": 52, "y": 12, "ch": ')'}]
-K_ARROW_DOWN = [{"x": 54, "y": 12, "ch": '('}, {"x": 55, "y": 12, "ch": chr(int("0x2193", 16))}, {"x": 56, "y": 12, "ch": ')'}]
-K_ARROW_RIGHT = [{"x": 58, "y": 12, "ch": '('}, {"x": 59, "y": 12, "ch": chr(int("0x2192", 16))}, {"x": 60, "y": 12, "ch": ')'}]
-K_K_0 = [{"x": 65, "y": 12, "ch": ' '}, {"x": 66, "y": 12, "ch": '0'}, {"x": 67, "y": 12, "ch": ' '}, {"x": 68, "y": 12, "ch": ' '}]
+K_RPROP = [
+    {"x": 38, "y": 12, "ch": 'P'}, {"x": 39, "y": 12, "ch": 'R'},
+    {"x": 40, "y": 12, "ch": 'O'}, {"x": 41, "y": 12, "ch": 'P'}
+]
+K_RCTRL = [
+    {"x": 43, "y": 12, "ch": 'C'}, {"x": 44, "y": 12, "ch": 'T'},
+    {"x": 45, "y": 12, "ch": 'R'}, {"x": 46, "y": 12, "ch": 'L'}
+]
+K_ARROW_LEFT = [
+    {"x": 50, "y": 12, "ch": '('}, {"x": 51, "y": 12, "ch": chr(int("0x2190", 16))}, {"x": 52, "y": 12, "ch": ')'}
+]
+K_ARROW_DOWN = [
+    {"x": 54, "y": 12, "ch": '('}, {"x": 55, "y": 12, "ch": chr(int("0x2193", 16))}, {"x": 56, "y": 12, "ch": ')'}
+]
+K_ARROW_RIGHT = [
+    {"x": 58, "y": 12, "ch": '('}, {"x": 59, "y": 12, "ch": chr(int("0x2192", 16))}, {"x": 60, "y": 12, "ch": ')'}
+]
+K_K_0 = [
+    {"x": 65, "y": 12, "ch": ' '}, {"x": 66, "y": 12, "ch": '0'},
+    {"x": 67, "y": 12, "ch": ' '}, {"x": 68, "y": 12, "ch": ' '}
+]
 K_K_PERIOD = [{"x": 71, "y": 12, "ch": '.'}]
 
 combos = [
     [K_TILDE, K_2, K_SPACE, K_LCTRL, K_RCTRL],
-    [K_A, K_LCTRL, K_RCTRL]
+    [K_A, K_LCTRL, K_RCTRL],
     [K_B, K_LCTRL, K_RCTRL],
 	[K_C, K_LCTRL, K_RCTRL],
 	[K_D, K_LCTRL, K_RCTRL],
@@ -348,4 +369,368 @@ def print_tb(x, y, fg, bg, msg):
         x+=1
 
 def printf_tb(x, y, fg, bg, fmt, *args):
-    s = 
+    s = fmt.format(*args)
+    print_tb(x, y, fg, bg, s)
+
+def draw_key(keys, fg, bg):
+    for k in keys:
+        mzo.set_cell(k["x"]+2, k["y"]+4, k["ch"], fg, bg)
+
+def draw_keyboard():
+    mzo.set_cell(0, 0, chr(int("0x250C", 16)), mzo.color("White"), mzo.color("Black"))
+    mzo.set_cell(79, 0, chr(int("0x2510", 16)), mzo.color("White"), mzo.color("Black"))
+    mzo.set_cell(0, 23, chr(int("0x2514", 16)), mzo.color("White"), mzo.color("Black"))
+    mzo.set_cell(79, 23, chr(int("0x2518", 16)), mzo.color("White"), mzo.color("Black"))
+
+    for i in range(1, 79):
+        mzo.set_cell(i, 0, chr(int("0x2500", 16)), mzo.color("White"), mzo.color("Black"))
+        mzo.set_cell(i, 23, chr(int("0x2500", 16)), mzo.color("White"), mzo.color("Black"))
+        mzo.set_cell(i, 17, chr(int("0x2500", 16)), mzo.color("White"), mzo.color("Black"))
+        mzo.set_cell(i, 4, chr(int("0x2500", 16)), mzo.color("White"), mzo.color("Black"))
+
+    for i in range(1, 23):
+        mzo.set_cell(0, i, chr(int("0x2502", 16)), mzo.color("White"), mzo.color("Black"))
+        mzo.set_cell(79, i, chr(int("0x2502", 16)), mzo.color("White"), mzo.color("Black"))
+
+    mzo.set_cell(0, 17, chr(int("0x251C", 16)), mzo.color("White"), mzo.color("Black"))
+    mzo.set_cell(79, 17, chr(int("0x2524", 16)), mzo.color("White"), mzo.color("Black"))
+    mzo.set_cell(0, 4, chr(int("0x251C", 16)), mzo.color("White"), mzo.color("Black"))
+    mzo.set_cell(79, 4, chr(int("0x2524", 16)), mzo.color("White"), mzo.color("Black"))
+
+    for i in range(5, 17):
+        mzo.set_cell(1, i, chr(int("0x2588", 16)), mzo.color("Yellow"), mzo.color("Yellow"))
+        mzo.set_cell(78, i, chr(int("0x2588", 16)), mzo.color("Yellow"), mzo.color("Yellow"))
+
+        draw_key(K_ESC, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F1, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F2, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F3, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F4, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F5, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F6, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F7, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F8, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F9, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F10, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F11, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_F12, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_PRN, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_SCR, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_BRK, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_LED1, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_LED2, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_LED3, mzo.color("White"), mzo.color("Blue"))
+
+        draw_key(K_TILDE, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_1, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_2, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_3, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_4, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_5, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_6, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_7, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_8, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_9, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_0, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_MINUS, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_EQUALS, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_BACKSLASH, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_BACKSPACE, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_INS, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_HOM, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_PGU, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_NUMLOCK, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_SLASH, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_STAR, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_MINUS, mzo.color("White"), mzo.color("Blue"))
+
+        draw_key(K_TAB, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_q, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_w, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_e, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_r, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_t, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_y, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_u, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_i, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_o, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_p, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_LSQB, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_RSQB, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_ENTER, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_DEL, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_END, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_PGD, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_7, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_8, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_9, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_PLUS, mzo.color("White"), mzo.color("Blue"))
+
+        draw_key(K_CAPS, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_a, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_s, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_d, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_f, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_g, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_h, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_j, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_k, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_l, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_SEMICOLON, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_QUOTE, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_4, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_5, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_6, mzo.color("White"), mzo.color("Blue"))
+
+        draw_key(K_LSHIFT, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_z, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_x, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_c, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_v, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_b, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_n, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_m, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_COMMA, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_PERIOD, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_SLASH, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_RSHIFT, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_ARROW_UP, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_1, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_2, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_3, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_ENTER, mzo.color("White"), mzo.color("Blue"))
+
+        draw_key(K_LCTRL, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_LWIN, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_LALT, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_SPACE, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_RCTRL, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_RPROP, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_RWIN, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_RALT, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_ARROW_LEFT, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_ARROW_DOWN, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_ARROW_RIGHT, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_0, mzo.color("White"), mzo.color("Blue"))
+        draw_key(K_K_PERIOD, mzo.color("White"), mzo.color("Blue"))
+
+        printf_tb(33, 1, mzo.color("Magenta") + mzo.attr("Bold"), mzo.color("Black"), "Keyboard demo!")
+        printf_tb(21, 2, mzo.color("Magenta"), mzo.color("Black"), "(press CTRL+X and then CTRL+Q to exit)")
+        printf_tb(15, 3, mzo.color("Magenta"), mzo.color("Black"), "(press CTRL+X and then CTRL+C to change input mode)")
+
+        input_mode = mzo.set_input_mode(mzo.input("Current"))
+        input_mode_str = ""
+        if input_mode & mzo.input("Esc") != 0:
+            input_mode_str = "termbox.InputEsc"
+        elif input_mode & mzo.input("Alt") != 0:
+            input_mode_str = "termbox.InputAlt"
+
+        if input_mode & mzo.input("Mouse") != 0:
+            input_mode_str += " | termbox.InputMouse"
+
+        printf_tb(3, 18, mzo.color("White"), mzo.color("Black"), "Input mode: {}", input_mode_str)
+
+fcmap = [
+    "CTRL+2, CTRL+~",
+	"CTRL+A",
+	"CTRL+B",
+	"CTRL+C",
+	"CTRL+D",
+	"CTRL+E",
+	"CTRL+F",
+	"CTRL+G",
+	"CTRL+H, BACKSPACE",
+	"CTRL+I, TAB",
+	"CTRL+J",
+	"CTRL+K",
+	"CTRL+L",
+	"CTRL+M, ENTER",
+	"CTRL+N",
+	"CTRL+O",
+	"CTRL+P",
+	"CTRL+Q",
+	"CTRL+R",
+	"CTRL+S",
+	"CTRL+T",
+	"CTRL+U",
+	"CTRL+V",
+	"CTRL+W",
+	"CTRL+X",
+	"CTRL+Y",
+	"CTRL+Z",
+	"CTRL+3, ESC, CTRL+[",
+	"CTRL+4, CTRL+\\",
+	"CTRL+5, CTRL+]",
+	"CTRL+6",
+	"CTRL+7, CTRL+/, CTRL+_",
+    "SPACE",
+]
+
+fkmap = [
+    "F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+	"F7",
+	"F8",
+	"F9",
+	"F10",
+	"F11",
+	"F12",
+	"INSERT",
+	"DELETE",
+	"HOME",
+	"END",
+	"PGUP",
+	"PGDN",
+	"ARROW UP",
+	"ARROW DOWN",
+	"ARROW LEFT",
+    "ARROW RIGHT",
+]
+
+def funckeymap(k):
+    if k == mzo.key("Ctrl8"):
+        return "CTRL+8, BACKSPACE 2"
+    elif k >= mzo.key("ArrowRight") and k <= int("0xFFFF", 16):
+        return fkmap[int("0xFFFF", 16)-k]
+    elif k <= mzo.key("Space"):
+        return fcmap[k]
+    return "UNKNOWN"
+
+def pretty_print_press(evt):
+    printf_tb(3, 19, mzo.color("White"), mzo.color("Black"), "Key: ")
+    printf_tb(8, 19, mzo.color("Yellow"), mzo.color("Black"), "decimal: {}", evt["Key"])
+    printf_tb(8, 20, mzo.color("Green"), mzo.color("Black"), "hex: {}",
+              'x'.join(hex(evt["Key"]).upper().split('X')))
+    printf_tb(8, 21, mzo.color("Cyan"), mzo.color("Black"), "octal: {}",
+              ''.join(oct(evt["Key"]).split('o')))
+    printf_tb(8, 22, mzo.color("Red"), mzo.color("Black"), "string: {}", funckeymap(evt["Key"]))
+
+    printf_tb(54, 19, mzo.color("White"), mzo.color("Black"), "Char: ")
+    printf_tb(60, 19, mzo.color("Yellow"), mzo.color("Black"), "decimal: {}", evt["Ch"])
+    printf_tb(60, 20, mzo.color("Green"), mzo.color("Black"), "hex: {}",
+              'x'.join(hex(evt["Ch"]).upper().split('X')))
+    printf_tb(60, 21, mzo.color("Cyan"), mzo.color("Black"), "octal: {}",
+              ''.join(oct(evt["Ch"]).split('o')))
+    printf_tb(60, 22, mzo.color("Red"), mzo.color("Black"), "string: {}", chr(evt["Ch"]))
+
+    modifier = "none"
+    if evt["Mod"] != 0:
+        modifier = "termbox.ModAlt"
+
+    printf_tb(54, 18, mzo.color("White"), mzo.color("Black"), "Modifier: {}", modifier)
+
+def pretty_print_resize(evt):
+    printf_tb(3, 19, mzo.color("White"), mzo.color("Black"),
+            "Resize event: {} x {}", evt["Width"], evt["Height"])
+
+counter = 0
+
+def pretty_print_mouse(evt):
+    printf_tb(3, 19, mzo.color("White"), mzo.color("Black"),
+              "Mouse event: {} x {}", evt["MouseX"], evt["MouseY"])
+    button = ""
+    if evt["Key"] == mzo.mouse("Left"):
+        button = "MouseLeft: {}"
+    elif evt["Key"] == mzo.mouse("Middle"):
+        button = "MouseMiddle: {}"
+    elif evt["Key"] == mzo.mouse("Right"):
+        button = "MouseRight: {}"
+    elif evt["Key"] == mzo.mouse("WheelUp"):
+        button = "MouseWheelUp: {}"
+    elif evt["Key"] == mzo.mouse("WheelDown"):
+        button = "MouseWheelDown: {}"
+    elif evt["Key"] == mzo.mouse("Release"):
+        button = "MouseRelease: {}"
+
+    if evt["Mod"] & mzo.mod("Motion") != 0:
+        button += "*"
+    global counter
+    counter += 1
+    printf_tb(43, 19, mzo.color("White"), mzo.color("Black"), "Key: ")
+    printf_tb(48, 19, mzo.color("Yellow"), mzo.color("Black"), button, counter)
+
+def dispatch_press(evt):
+    if evt["Mod"] & mzo.mod("Alt") != 0:
+        draw_key(K_LALT, mzo.color("White"), mzo.color("Red"))
+        draw_key(K_RALT, mzo.color("White"), mzo.color("Red"))
+
+    keys = None
+    if evt["Key"] >= mzo.key("ArrowRight"):
+        try:
+            keys = func_combos[int("0xFFFF", 16) - evt["Key"]]
+        except IndexError:
+            return
+    elif evt["Ch"] < 128:
+        if evt["Ch"] == 0 and evt["Key"] < 128:
+            try:
+                keys = combos[evt["Key"]]
+            except IndexError:
+                return
+        else:
+            try:
+                keys = combos[evt["Ch"]]
+            except IndexError:
+                return
+    for k in keys:
+        draw_key(k, mzo.color("White"), mzo.color("Red"))
+
+def main():
+    err = mzo.init()
+    if err:
+        raise(Exception(err))
+    mzo.set_input_mode(mzo.input("Esc")|mzo.input("Mouse"))
+    mzo.clear(mzo.color("Default"), mzo.color("Default"))
+    draw_keyboard()
+    mzo.flush()
+    inputmode = 0
+    ctrlxpressed = False
+    while True:
+        evt = mzo.poll_event()
+        if evt["Type"] == mzo.event("Key"):
+            if evt["Key"] == mzo.key("CtrlS") and ctrlxpressed:
+                mzo.sync()
+            if evt["Key"] == mzo.key("CtrlQ") and ctrlxpressed:
+                break
+            if evt["Key"] == mzo.key("CtrlC") and ctrlxpressed:
+                chmap = [
+                    mzo.input("Esc") | mzo.input("Mouse"),
+                    mzo.input("Alt") | mzo.input("Mouse"),
+                    mzo.input("Esc"),
+                    mzo.input("Alt")
+                ]
+                inputmode += 1
+                if inputmode >= len(chmap):
+                    inputmode = 0
+                mzo.set_input_mode(chmap[inputmode])
+            if evt["Key"] == mzo.key("CtrlX"):
+                ctrlxpressed = True
+            else:
+                ctrlxpressed = False
+
+            mzo.clear(mzo.color("Default"), mzo.color("Default"))
+            draw_keyboard()
+            dispatch_press(evt)
+            pretty_print_press(evt)
+            mzo.flush()
+        elif evt["Type"] == mzo.event("Resize"):
+            mzo.clear(mzo.color("Default"), mzo.color("Default"))
+            draw_keyboard()
+            pretty_print_resize(evt)
+            mzo.flush()
+        elif evt["Type"] == mzo.event("Mouse"):
+            mzo.clear(mzo.color("Default"), mzo.color("Default"))
+            draw_keyboard()
+            pretty_print_mouse(evt)
+            mzo.flush()
+        elif evt["Type"] == mzo.event("Error"):
+            raise(Exception(evt["Err"]))
+
+if __name__ == "__main__":
+    try:
+        main()
+    finally:
+        mzo.close()

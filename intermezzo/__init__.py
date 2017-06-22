@@ -141,10 +141,11 @@ class Intermezzo:
         return {
             "Key":       0,
             "Resize":    1,
-            "Error":     2,
-            "Interrupt": 3,
-            "Raw":       4,
-            "None":      5,
+            "Mouse":     2,
+            "Error":     3,
+            "Interrupt": 4,
+            "Raw":       5,
+            "None":      6,
         }.get(name, 5)
 
     @staticmethod
@@ -153,7 +154,7 @@ class Intermezzo:
             "Current": 0,
             "Esc":     1,
             "Alt":     2,
-            "Mouse":   5,
+            "Mouse":   4,
         }.get(mode, 0)
 
     @staticmethod
@@ -198,13 +199,6 @@ class Intermezzo:
             "ArrowDown":      65516,
             "ArrowLeft":      65515,
             "ArrowRight":     65514,
-
-            "MouseLeft":      65512,
-            "MouseMiddle":    65511,
-            "MouseRight":     65510,
-            "MouseRelease":   65509,
-            "MouseWheelUp":   65508,
-            "MouseWheelDown": 65507,
 
             "CtrlTilde":      0,
             "Ctrl2":          0,
@@ -253,3 +247,36 @@ class Intermezzo:
             "Backspace2":     127,
             "Ctrl8":          127,
         }.get(name, None)
+
+    @staticmethod
+    def mouse(name):
+        return {
+            "Left":      65512,
+            "Middle":    65511,
+            "Right":     65510,
+            "Release":   65509,
+            "WheelUp":   65508,
+            "WheelDown": 65507,
+        }.get(name, None)
+
+    @staticmethod
+    def color(name):
+        return {
+            "Default": 0,
+            "Black":   1,
+            "Red":     2,
+            "Green":   3,
+            "Yellow":  4,
+            "Blue":    5,
+            "Magenta": 6,
+            "Cyan":    7,
+            "White":   8,
+        }.get(name, 0)
+
+    @staticmethod
+    def attr(name):
+        return {
+            "Bold":      512,
+            "Underline": 1024,
+            "Reverse":   2048,
+        }.get(name, 0)
