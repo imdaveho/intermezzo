@@ -45,6 +45,7 @@ void freeCells(CellSlice* p0);
 void freeString(char* p0);
 void freeEvent(Event* p0);
 
+int         IsInit();
 CellSlice*  CellBuffer();
 Error       Clear(uint16_t p0, uint16_t p1);
 void        Close();

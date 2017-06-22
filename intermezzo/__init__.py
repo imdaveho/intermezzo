@@ -26,6 +26,14 @@ elif OS == 'Linux':
 
 class Intermezzo:
     @staticmethod
+    def is_init():
+        init = lib.IsInit()
+        if init == 0:
+            return False
+        elif init == 1:
+            return True
+
+    @staticmethod
     def cell_buffer():
         cellslice_ptr = lib.CellBuffer()
         buffer = []

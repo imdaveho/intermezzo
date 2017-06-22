@@ -122,6 +122,15 @@ func freeEvent(ptr *C.Event) {
 /****************************************************
 * Termbox-Go API Wrappers                           *
 ****************************************************/
+//export IsInit
+func IsInit() C.int {
+	if termbox.IsInit {
+		return C.int(1)
+	} else {
+		return C.int(0)
+	}
+}
+
 //export CellBuffer
 func CellBuffer() *C.CellSlice {
 	buffer := termbox.CellBuffer()

@@ -66,6 +66,7 @@ class EditBox:
 
     def draw(self, x, y, w, h):
         self.adjust_voffset(w)
+        coldef = mzo.color("Default")
         celldef = {"Ch": ' ', "Fg": 0, "Bg": 0}
         fill(x, y, w, h, celldef)
         t = self.text
@@ -80,7 +81,7 @@ class EditBox:
                 tabstop += TABSTOP_LEN
 
             if rx >= w:
-                mzo.set_cell(x+w+1, y, '→', 0, 0)
+                mzo.set_cell(x+w-1, y, '→', coldef, coldef)
                 break
             rune = t[0]
             if rune == '\t':
@@ -91,17 +92,17 @@ class EditBox:
                         # goto next
                         break
                     if rx >= 0:
-                        mzo.set_cell(x+rx, y, ' ', 0, 0)
+                        mzo.set_cell(x+rx, y, ' ', coldef, coldef)
                     lx += 1
             else:
                 if rx >= 0:
-                    mzo.set_cell(x+rx, y, rune, 0, 0)
+                    mzo.set_cell(x+rx, y, rune, coldef, coldef)
                 lx += len(rune)
             # next:
             t = t[len(rune):]
 
         if self.line_voffset != 0:
-            mzo.set_cell(x, y, '←', 0, 0)
+            mzo.set_cell(x, y, '←', coldef, coldef)
 
     def adjust_voffset(self, width):
         ht = PREFERRED_HORIZONTAL_THRESHOLD
@@ -184,26 +185,27 @@ class EditBox:
 edit_box = EditBox()
 
 def redraw_all():
-    mzo.clear(0, 0)
+    coldef = mzo.color("Default")
+    mzo.clear(coldef, coldef)
     w, h = mzo.size()
 
     midy = int(h/2)
     midx = int((w - EDITBOX_WIDTH)/2)
     cell = {"Ch": '─', "Fg": 0, "Bg": 0}
 
-    mzo.set_cell(midx-1, midy, '│', 0, 0)
-    mzo.set_cell(midx+EDITBOX_WIDTH, midy, '│', 0, 0)
-    mzo.set_cell(midx-1, midy-1, '┌', 0, 0)
-    mzo.set_cell(midx-1, midy+1, '└', 0, 0)
-    mzo.set_cell(midx+EDITBOX_WIDTH, midy-1, '┐', 0, 0)
-    mzo.set_cell(midx+EDITBOX_WIDTH, midy+1, '┘', 0, 0)
+    mzo.set_cell(midx-1, midy, '│', coldef, coldef)
+    mzo.set_cell(midx+EDITBOX_WIDTH, midy, '│', coldef, coldef)
+    mzo.set_cell(midx-1, midy-1, '┌', coldef, coldef)
+    mzo.set_cell(midx-1, midy+1, '└', coldef, coldef)
+    mzo.set_cell(midx+EDITBOX_WIDTH, midy-1, '┐', coldef, coldef)
+    mzo.set_cell(midx+EDITBOX_WIDTH, midy+1, '┘', coldef, coldef)
     fill(midx, midy-1, EDITBOX_WIDTH, 1, cell)
     fill(midx, midy+1, EDITBOX_WIDTH, 1, cell)
 
     edit_box.draw(midx, midy, EDITBOX_WIDTH, 1)
     mzo.set_cursor(midx+edit_box.cursorX(), midy)
 
-    tbPrint(midx+6, midy+3, 0, 0, "Press ESC to quit")
+    tbPrint(midx+6, midy+3, coldef, coldef, "Press ESC to quit")
     mzo.flush()
 
 def main():
@@ -215,8 +217,7 @@ def main():
 
     while True:
         evt = mzo.poll_event()
-        if evt["Type"] == 0:
-            # EventKey
+        if evt["Type"] == mzo.event("Key"):
             k, c = evt["Key"], evt["Ch"]
             if k == mzo.key("Esc"):
                 break
@@ -242,7 +243,7 @@ def main():
                 if c != 0:
                     edit_box.insert_rune(chr(c))
 
-        elif evt["Type"] == 3:
+        elif evt["Type"] == mzo.event("Error"):
             # EventError
             raise(Exception(evt["Err"]))
         redraw_all()

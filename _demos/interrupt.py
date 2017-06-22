@@ -6,26 +6,35 @@ from intermezzo import Intermezzo as mzo
 def tbPrint(x, y, fg, bg, msg):
     for c in msg:
         mzo.set_cell(x, y, c, fg, bg)
-        x+=1
+        x += 1
 
 def draw(i):
-    mzo.clear(0, 0)
+    mzo.clear(mzo.color("Default"), mzo.color("Default"))
     w, h = mzo.size()
     s = "count = {}".format(i)
-    tbPrint(int((w/2)-(len(s)/2)), int(h/2), 2, 0, s)
+    tbPrint(int((w/2)-(len(s)/2)), int(h/2), mzo.color("Red"), mzo.color("Default"), s)
     mzo.flush()
 
+is_running = True
+
 def _interrupt():
+    global is_running
     time.sleep(5)
     mzo.interrupt()
-    time.sleep(1) # <-- this shouldn't run either, but it does...TODO: fix?
-    raise(Exception("This should never run."))
+    # global state is bad but Python waits until
+    # the thread finishes running before closing
+    # the event loop so without something to skip
+    # time.sleep(1) and raise(...), the thread will
+    # wait 1 second before exiting the main loop...
+    if not is_running:
+        time.sleep(1) # <-- will sleep w/o is_running check
+        raise(Exception("This should never run."))
 
 async def main():
     err = mzo.init()
     if err:
         raise(Exception(err))
-    mzo.set_input_mode(1)
+    mzo.set_input_mode(mzo.input("Esc"))
     count = 0
     draw(count)
     while True:
@@ -38,6 +47,8 @@ async def main():
         elif evt["Type"] == 3:
             raise(Exception(evt["Err"]))
         elif evt["Type"] == 4:
+            global is_running
+            is_running = False
             break
         draw(count)
 
