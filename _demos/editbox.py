@@ -1,4 +1,5 @@
 from intermezzo import Intermezzo as mzo
+from wcwidth import wcwidth
 
 
 TABSTOP_LEN = 8
@@ -8,7 +9,7 @@ EDITBOX_WIDTH = 30
 def tbPrint(x, y, fg, bg, msg):
     for c in msg:
         mzo.set_cell(x, y, c, fg, bg)
-        x += len(c)
+        x += wcwidth(c)
 
 def fill(x, y, w, h, cell):
     for ly in range(0, h):
@@ -18,7 +19,7 @@ def fill(x, y, w, h, cell):
 def rune_advance_len(r, pos):
     if r == '\t':
         return TABSTOP_LEN - (pos % TABSTOP_LEN)
-    return len(r)
+    return wcwidth(r)
 
 # def voffset_coffset(text, boffset):
 #     """
@@ -26,8 +27,9 @@ def rune_advance_len(r, pos):
 #     support is very good and we don't have to
 #     jump through all the hoops that Golang has
 #     to because Golang represents strings as []byte
-#     and that causes issues with unicode characters
-#     FYI - if you want unicode byte string, do
+#     and requires you to use utf8.DecodeRune() to
+#     get the unicode string. Python has this builtin
+#     FYI - if you want byte strings from unicode, do
 #     something like this: '☆'.encode("utf-8")
 #     """
 #     text = text[:boffset]
@@ -97,7 +99,7 @@ class EditBox:
             else:
                 if rx >= 0:
                     mzo.set_cell(x+rx, y, rune, coldef, coldef)
-                lx += len(rune)
+                lx += wcwidth(rune)
             # next:
             t = t[len(rune):]
 

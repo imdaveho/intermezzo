@@ -1,4 +1,5 @@
 from intermezzo import Intermezzo as mzo
+from wcwidth import wcwidth
 
 
 chars = "nnnnnnnnnbbbbbbbbbuuuuuuuuuBBBBBBBBB"
@@ -23,30 +24,32 @@ def print_combinations_table(sx, sy, attrs):
         mzo.attr("Bold") | mzo.attr("Underline"),
     ]
 
+    def draw_line():
+        nonlocal current_char
+        x = sx
+        for a in all_attrs:
+            for c in range(mzo.color("Default"), mzo.color("White") + 1):
+                fg = a | c
+                mzo.set_cell(x, y, chars[current_char], fg, bg)
+                current_char = next_char(current_char)
+                x += 1
+
     for a in attrs:
         for c in range(mzo.color("Default"), mzo.color("White") + 1):
             bg = a | c
-            # Python lambdas suck...so just inline draw_line()
-            x = sx
-            for a in all_attrs:
-                for c in range(mzo.color("Default"), mzo.color("White") + 1):
-                    fg = a | c
-                    mzo.set_cell(x, y, chars[current_char], fg, bg)
-                    current_char = next_char(current_char)
-                    x += 1
+            draw_line()
             y += 1
 
-def print_wide(x, y, string):
+def print_wide(x, y, s):
     red = False
-    for s in string:
+    for r in s:
         c = mzo.color("Default")
         if red:
             c = mzo.color("Red")
-        mzo.set_cell(x, y, s, mzo.color("Default"), c)
-        w = len(s.encode("utf-8"))
-        # TODO: F***...unicode widths screwing things up!
-        # if w == 0 or w == 2:
-        #     w = 1
+        mzo.set_cell(x, y, r, mzo.color("Default"), c)
+        w = wcwidth(r)
+        # NOTE: wcwidth may not have an
+        # equivalent to IsAmbiguousWidth()
         x += w
         red = not red
 
@@ -69,7 +72,7 @@ def draw_all():
             mzo.set_cell(82, y, 'd', y+1, mzo.color("Default"))
             mzo.set_cell(83, y, 'd', mzo.color("Default"), 26-y)
 
-    elif output_mode == mzo.output("Output216"):
+    elif output_mode == mzo.output("216"):
         for r in range(0, 6):
             for g in range(0, 6):
                 for b in range(0, 6):
@@ -83,12 +86,10 @@ def draw_all():
                     uc1 = c1 | mzo.attr("Underline")
                     bc2 = c2 | mzo.attr("Bold")
                     uc2 = c2 | mzo.attr("Underline")
-
                     mzo.set_cell(x, y, 'n', c1, bg)
                     mzo.set_cell(x, y+6, 'b', bc1, bg)
                     mzo.set_cell(x, y+12, 'u', uc1, bg)
                     mzo.set_cell(x, y+18, 'B', bc1|uc1, bg)
-
                     mzo.set_cell(x+37, y, 'n', c2, bg)
                     mzo.set_cell(x+37, y+6, 'b', bc2, bg)
                     mzo.set_cell(x+37, y+12, 'u', uc2, bg)
@@ -100,7 +101,7 @@ def draw_all():
                 mzo.set_cell(74+g, r+12, 'd', mzo.color("Default"), c1)
                 mzo.set_cell(74+g, r+18, 'd', mzo.color("Default"), c2)
 
-    elif output_mode == mzo.output("Output256"):
+    elif output_mode == mzo.output("256"):
         for y in range(0, 4):
             for x in range(0, 8):
                 for z in range(0, 8):
@@ -138,13 +139,14 @@ def draw_all():
 available_modes = [
     mzo.output("Normal"),
     mzo.output("Grayscale"),
-    mzo.output("Output216"),
-    mzo.output("Output256"),
+    mzo.output("216"),
+    mzo.output("256"),
 ]
 
 output_mode_index = 0
 
 def switch_output_mode(direction):
+    global output_mode
     global output_mode_index
     output_mode_index += direction
     if output_mode_index < 0:
