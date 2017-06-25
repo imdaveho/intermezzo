@@ -53,6 +53,27 @@ class Intermezzo:
         return buffer
 
     @staticmethod
+    def copy_into_cell_buffer(cells):
+        length = len(cells)
+        size = ffi.sizeof("Cell")
+        array = ffi.new("Cell[]", length)
+        for i, cell in enumerate(cells):
+            c_cell = array[i]
+            if cell["Ch"]:
+                c_cell.Ch = ord(cell["Ch"])
+            else:
+                # null string ("") is
+                # blank space (32) as
+                # default Ch for cell
+                c_cell.Ch = 32
+            c_cell.Fg = cell["Fg"]
+            c_cell.Bg = cell["Bg"]
+        err = ffi.string(
+            lib.CopyIntoCellBuffer(array, size, length)
+        ).decode("utf-8")
+        return err
+
+    @staticmethod
     def clear(fg, bg):
         error_ptr = lib.Clear(fg, bg)
         err = ffi.string(error_ptr).decode("utf-8")
@@ -116,22 +137,22 @@ class Intermezzo:
 
     @staticmethod
     def poll_event():
-        event_ptr = lib.PollEvent()
+        evt_ptr = lib.PollEvent()
         pyevt = {
-            "Type":   event_ptr.Type,
-            "Mod":    event_ptr.Mod,
-            "Key":    event_ptr.Key,
-            "Ch":     event_ptr.Ch,
-            "Width":  event_ptr.Width,
-            "Height": event_ptr.Height,
-            "Err":    ffi.string(event_ptr.Err).decode("utf-8"),
-            "MouseX": event_ptr.MouseX,
-            "MouseY": event_ptr.MouseY,
-            "N":      event_ptr.N
+            "Type":   evt_ptr.Type,
+            "Mod":    evt_ptr.Mod,
+            "Key":    evt_ptr.Key,
+            "Ch":     evt_ptr.Ch,
+            "Width":  evt_ptr.Width,
+            "Height": evt_ptr.Height,
+            "Err":    ffi.string(evt_ptr.Err).decode("utf-8"),
+            "MouseX": evt_ptr.MouseX,
+            "MouseY": evt_ptr.MouseY,
+            "N":      evt_ptr.N
         }
         # free that Event* (and char*) memory!
-        lib.freeEvent(event_ptr)
-        del event_ptr
+        lib.freeEvent(evt_ptr)
+        del evt_ptr
         return pyevt
 
     @staticmethod

@@ -1,7 +1,7 @@
 from intermezzo import Intermezzo as mzo
 
-curCol = 0
-curRune = 0
+curCol = [0]
+curRune = [0]
 backbuf = []
 bbw, bbh = 0, 0
 
@@ -21,7 +21,7 @@ def updateAndDrawButtons(current, x, y, mx, my, n, attrf):
     lx, ly = x, y
     for i in range(0, n):
         if lx <= mx and mx <= lx+3 and ly <= my and my <= ly+1:
-            current = i
+            current[0] = i
 
         r, fg, bg = attrf(i)
         mzo.set_cell(lx+0, ly+0, r, fg, bg)
@@ -36,7 +36,7 @@ def updateAndDrawButtons(current, x, y, mx, my, n, attrf):
 
     lx, ly = x, y
     for i in range(0, n):
-        if current == i:
+        if current[0] == i:
             fg = mzo.color("Red") | mzo.attr("Bold")
             bg = mzo.color("Default")
             mzo.set_cell(lx+0, ly+2, '^', fg, bg)
@@ -46,33 +46,27 @@ def updateAndDrawButtons(current, x, y, mx, my, n, attrf):
         lx += 4
 
 def update_and_redraw_all(mx, my):
-    global backbuf
-    global bbw
-    global runes
-    global colors
-    global curRune
-    global curCol
+    global runes, curRune
     mzo.clear(mzo.color("Default"), mzo.color("Default"))
-    if mx != -1 and my != -1:
-        backbuf[bbw*my+mx] = {"Ch": runes[curRune], "Bg": colors[curCol], "Fg": 0}
-    # copy(mzo.CellBuffer(), backbuf)
-    backbuf + mzo.cell_buffer()[len(backbuf):]
+    # if mx != -1 and my != -1:
+    #     backbuf[bbw*my+mx] = {"Ch": runes[curRune[0]], "Fg": colors[curCol[0]], "Bg": 0}
+    # err = mzo.copy_into_cell_buffer(backbuf)
+    # if err:
+    #     raise(Exception(err))
     _, h = mzo.size()
 
     def rune_cb(i):
-        global runes
         return runes[i], mzo.color("Default"), mzo.color("Default")
 
-    def color_cb(i):
-        global colors
-        return ' ', mzo.color("Default"), colors[i]
+    # def color_cb(i):
+    #     return ' ', mzo.color("Default"), colors[i]
 
     updateAndDrawButtons(curRune, 0, 0, mx, my, len(runes), rune_cb)
-    updateAndDrawButtons(curRune, 0, h-3, mx, my, len(colors), color_cb)
+    # updateAndDrawButtons(curCol, 0, h-3, mx, my, len(colors), color_cb)
     mzo.flush()
 
 def reallocBackBuffer(w, h):
-    global bbw, bbh, backbuf
+    global backbuf, bbw, bbh
     bbw, bbh = w, h
     backbuf = [{"Ch": "", "Fg": 0, "Bg": 0} for _ in range(w*h)]
 

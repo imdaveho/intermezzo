@@ -47,6 +47,7 @@ void freeEvent(Event* p0);
 
 int         IsInit();
 CellSlice*  CellBuffer();
+Error       CopyIntoCellBuffer(Cell* p0, int p1, int p2);
 Error       Clear(uint16_t p0, uint16_t p1);
 void        Close();
 Error       Flush();

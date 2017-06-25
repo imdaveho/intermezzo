@@ -97,7 +97,12 @@ static void freeCEvent(Event *ptr)
 }
 */
 import "C"
-import "github.com/nsf/termbox-go"
+import (
+	"bytes"
+	"encoding/binary"
+	"github.com/nsf/termbox-go"
+	"unsafe"
+)
 
 /****************************************************
 * These are free() calls to ensure that malloc'd    *
@@ -146,6 +151,23 @@ func CellBuffer() *C.CellSlice {
 	return cells
 	// for freeing memory, freeCells() would be called
 	// from a Python CFFI interface wrapping this func
+}
+
+//export CopyIntoCellBuffer
+func CopyIntoCellBuffer(cells *C.Cell, size C.int, length C.int) C.Error {
+	array := C.GoBytes(unsafe.Pointer(cells), length*size)
+	buffer := bytes.NewBuffer(array)
+	var newcells []termbox.Cell
+	for i := 0; i < int(length); i++ {
+		var cell termbox.Cell
+		err := binary.Read(buffer, binary.LittleEndian, &cell)
+		if err != nil {
+			return C.CString(err.Error())
+		}
+		newcells = append(newcells, cell)
+	}
+	copy(termbox.CellBuffer(), newcells)
+	return C.CString("")
 }
 
 //export Clear
