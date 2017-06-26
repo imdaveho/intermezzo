@@ -46,23 +46,25 @@ def updateAndDrawButtons(current, x, y, mx, my, n, attrf):
         lx += 4
 
 def update_and_redraw_all(mx, my):
-    global runes, curRune
+    global backbuf, runes, curRune, colors, curCol
     mzo.clear(mzo.color("Default"), mzo.color("Default"))
-    # if mx != -1 and my != -1:
-    #     backbuf[bbw*my+mx] = {"Ch": runes[curRune[0]], "Fg": colors[curCol[0]], "Bg": 0}
-    # err = mzo.copy_into_cell_buffer(backbuf)
-    # if err:
-    #     raise(Exception(err))
+    if mx != -1 and my != -1:
+        backbuf[bbw*my+mx] = {"Ch": runes[curRune[0]], "Fg": colors[curCol[0]], "Bg": 0}
+    err = mzo.copy_into_cell_buffer(backbuf)
+    if err:
+        raise(Exception(err))
     _, h = mzo.size()
 
     def rune_cb(i):
+        global runes
         return runes[i], mzo.color("Default"), mzo.color("Default")
 
-    # def color_cb(i):
-    #     return ' ', mzo.color("Default"), colors[i]
+    def color_cb(i):
+        global colors
+        return ' ', mzo.color("Default"), colors[i]
 
     updateAndDrawButtons(curRune, 0, 0, mx, my, len(runes), rune_cb)
-    # updateAndDrawButtons(curCol, 0, h-3, mx, my, len(colors), color_cb)
+    updateAndDrawButtons(curCol, 0, h-3, mx, my, len(colors), color_cb)
     mzo.flush()
 
 def reallocBackBuffer(w, h):

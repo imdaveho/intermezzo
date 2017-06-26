@@ -56,6 +56,7 @@ class Intermezzo:
     def copy_into_cell_buffer(cells):
         length = len(cells)
         size = ffi.sizeof("Cell")
+        # Python CFFI managed memory
         array = ffi.new("Cell[]", length)
         for i, cell in enumerate(cells):
             c_cell = array[i]
@@ -71,6 +72,7 @@ class Intermezzo:
         err = ffi.string(
             lib.CopyIntoCellBuffer(array, size, length)
         ).decode("utf-8")
+        # array should be GC'd once err is returned
         return err
 
     @staticmethod
