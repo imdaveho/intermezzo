@@ -69,9 +69,8 @@ class Intermezzo:
                 c_cell.Ch = 32
             c_cell.Fg = cell["Fg"]
             c_cell.Bg = cell["Bg"]
-        err = ffi.string(
-            lib.CopyIntoCellBuffer(array, size, length)
-        ).decode("utf-8")
+        error_ptr = lib.CopyIntoCellBuffer(array, size, length)
+        err = ffi.string(error_ptr).decode("utf-8")
         # array should be GC'd once err is returned
         return err
 
