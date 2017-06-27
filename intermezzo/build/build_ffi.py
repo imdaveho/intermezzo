@@ -41,9 +41,16 @@ typedef struct Event
   int      N;
 } Event;
 
+typedef struct RawEvent
+{
+  Event*    ev;
+  uint8_t*  data;
+} RawEvent;
+
 void freeCells(CellSlice* p0);
 void freeString(char* p0);
 void freeEvent(Event* p0);
+void freeRawEvent(RawEvent* p0);
 
 int         IsInit();
 CellSlice*  CellBuffer();
@@ -61,6 +68,18 @@ Error       Sync();
 Event*      PollEvent();
 int         SetInputMode(int p0);
 int         SetOutputMode(int p0);
+RawEvent*   ParseEvent(void* p0, int p1);
+RawEvent*   PollRawEvent(void* p0, int p1);
+
+char*       FillLeft(char* p0, int p1);
+char*       FillRight(char* p0, int p1);
+int         IsAmbiguousWidth(uint32_t p0);
+int         IsEastAsian();
+int         IsNeutralWidth(uint32_t p0);
+int         RuneWidth(uint32_t p0);
+int         StringWidth(char* p0);
+char*       Truncate(char* p0, int p1, char* p2);
+char*       Wrap(char* p0, int p1);
 """
 )
 

@@ -42,6 +42,11 @@ typedef struct Event
   int      N;
 } Event;
 
+typedef struct RawEvent
+{
+  Event*    ev;
+  uint8_t*  data;
+} RawEvent;
 
 static CellSlice *createCells(int len)
 {
@@ -72,6 +77,18 @@ static Event *createEvent(void)
   return ptr;
 }
 
+static RawEvent *createRawEvent(void)
+{
+  RawEvent *ptr = malloc(sizeof(RawEvent));
+  if (ptr == NULL) {
+    return NULL;
+  }
+  Event *ev = createEvent();
+  ptr->ev = ev;
+  // NOTE: uint8_t *data is malloc'd with C.CBytes
+  return ptr;
+}
+
 static void freeCCells(CellSlice *ptr)
 {
   Cell *cells = ptr->data;
@@ -95,11 +112,24 @@ static void freeCEvent(Event *ptr)
   free(ptr);
   ptr = NULL;
 }
+
+static void freeCRawEvent(RawEvent *ptr)
+{
+  Event *ev = ptr->ev;
+  uint8_t *data = ptr->data;
+  freeCEvent(ev);
+  free(data);
+  data = NULL;
+  free(ptr);
+  ptr = NULL;
+}
+
 */
 import "C"
 import (
 	"bytes"
 	"encoding/binary"
+	"github.com/mattn/go-runewidth"
 	"github.com/nsf/termbox-go"
 	"unsafe"
 )
@@ -122,6 +152,11 @@ func freeString(str *C.char) {
 //export freeEvent
 func freeEvent(ptr *C.Event) {
 	C.freeCEvent(ptr)
+}
+
+//export freeRawEvent
+func freeRawEvent(ptr *C.RawEvent) {
+	C.freeCRawEvent(ptr)
 }
 
 /****************************************************
@@ -168,6 +203,7 @@ func CopyIntoCellBuffer(cells *C.Cell, size C.int, length C.int) C.Error {
 	}
 	copy(termbox.CellBuffer(), newcells)
 	return C.CString("")
+	// remember to free the CString!
 }
 
 //export Clear
@@ -294,18 +330,139 @@ func SetOutputMode(mode C.int) C.int {
 
 // From godoc.org/github.com/nsf/termbox-go:
 // NOTE: This API is experimental and may change in the future
-// NOTE: Not Implemented
-// func ParseEvent(data unsafe.Pointer) Event {
-// 	evt := termbox.ParseEvent(...)
-//      ???
-// }
+//export ParseEvent
+func ParseEvent(data unsafe.Pointer, length C.int) *C.RawEvent {
+	b := C.GoBytes(data, length)
+	evt := termbox.ParseEvent(b)
+	// create the Event*
+	evt_ptr := C.createEvent()
+	evt_ptr.Type = C.uint8_t(evt.Type)
+	evt_ptr.Mod = C.uint8_t(evt.Mod)
+	evt_ptr.Key = C.uint16_t(evt.Key)
+	evt_ptr.Ch = C.int32_t(evt.Ch)
+	evt_ptr.Width = C.int(evt.Width)
+	evt_ptr.Height = C.int(evt.Height)
+	if evt.Err != nil {
+		evt_ptr.Err = C.CString(evt.Err.Error())
+	} else {
+		evt_ptr.Err = C.CString("")
+	}
+	evt_ptr.MouseX = C.int(evt.MouseX)
+	evt_ptr.MouseY = C.int(evt.MouseY)
+	evt_ptr.N = C.int(evt.N)
+	// revert GoBytes back and cast to uint8_t*
+	data_ptr := (*C.uint8_t)(C.CBytes(b))
+	// create RawEvent*
+	raw_ptr := C.createRawEvent()
+	raw_ptr.ev = evt_ptr
+	raw_ptr.data = data_ptr
+
+	return raw_ptr
+}
 
 // From godoc.org/github.com/nsf/termbox-go:
 // NOTE: This API is experimental and may change in the future
-// NOTE: Not Implemented
-// func PollRawEvent(data unsafe.Pointer) Event {
-// 	evt := termbox.PollRawEvent(...)
-//      ???
-// }
+//export PollRawEvent
+func PollRawEvent(data unsafe.Pointer, length C.int) *C.RawEvent {
+	b := C.GoBytes(data, length)
+	evt := termbox.PollRawEvent(b)
+	// create the Event*
+	evt_ptr := C.createEvent()
+	evt_ptr.Type = C.uint8_t(evt.Type)
+	evt_ptr.Mod = C.uint8_t(evt.Mod)
+	evt_ptr.Key = C.uint16_t(evt.Key)
+	evt_ptr.Ch = C.int32_t(evt.Ch)
+	evt_ptr.Width = C.int(evt.Width)
+	evt_ptr.Height = C.int(evt.Height)
+	if evt.Err != nil {
+		evt_ptr.Err = C.CString(evt.Err.Error())
+	} else {
+		evt_ptr.Err = C.CString("")
+	}
+	evt_ptr.MouseX = C.int(evt.MouseX)
+	evt_ptr.MouseY = C.int(evt.MouseY)
+	evt_ptr.N = C.int(evt.N)
+	// revert GoBytes back and cast to uint8_t*
+	data_ptr := (*C.uint8_t)(C.CBytes(b))
+	// create RawEvent*
+	raw_ptr := C.createRawEvent()
+	raw_ptr.ev = evt_ptr
+	raw_ptr.data = data_ptr
+
+	return raw_ptr
+}
+
+/****************************************************
+* Go-Runewidth API Wrappers                         *
+* NOTE: As a dependency for Termbox-Go, including   *
+* runewidth attempts to keep the library as stand-  *
+* alone as possible while still maintaining a small *
+* and simple footprint                              *
+****************************************************/
+//export FillLeft
+func FillLeft(s *C.char, w C.int) *C.char {
+	go_str := runewidth.FillLeft(C.GoString(s), int(w))
+	return C.CString(go_str)
+	// remember to free the CString!
+}
+
+//export FillRight
+func FillRight(s *C.char, w C.int) *C.char {
+	go_str := runewidth.FillRight(C.GoString(s), int(w))
+	return C.CString(go_str)
+	// remember to free the CString!
+}
+
+//export IsAmbiguousWidth
+func IsAmbiguousWidth(r C.uint32_t) C.int {
+	if runewidth.IsAmbiguousWidth(rune(r)) {
+		return C.int(1)
+	} else {
+		return C.int(0)
+	}
+}
+
+//export IsEastAsian
+func IsEastAsian() C.int {
+	if runewidth.IsEastAsian() {
+		return C.int(1)
+	} else {
+		return C.int(0)
+	}
+
+}
+
+//export IsNeutralWidth
+func IsNeutralWidth(r C.uint32_t) C.int {
+	if runewidth.IsNeutralWidth(rune(r)) {
+		return C.int(1)
+	} else {
+		return C.int(0)
+	}
+}
+
+//export RuneWidth
+func RuneWidth(r C.uint32_t) C.int {
+	return C.int(runewidth.RuneWidth(rune(r)))
+}
+
+//export StringWidth
+func StringWidth(s *C.char) C.int {
+	return C.int(runewidth.StringWidth(C.GoString(s)))
+}
+
+//export Truncate
+func Truncate(s *C.char, w C.int, tail *C.char) *C.char {
+	go_str := runewidth.Truncate(C.GoString(s), int(w), C.GoString(tail))
+	return C.CString(go_str)
+	// remember to free the CString!
+}
+
+//export Wrap
+func Wrap(s *C.char, w C.int) *C.char {
+	go_str := runewidth.Wrap(C.GoString(s), int(w))
+	return C.CString(go_str)
+	// remember to free the CString!
+}
 
 func main() {}

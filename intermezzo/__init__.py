@@ -71,6 +71,9 @@ class Intermezzo:
             c_cell.Bg = cell["Bg"]
         error_ptr = lib.CopyIntoCellBuffer(array, size, length)
         err = ffi.string(error_ptr).decode("utf-8")
+        # free that char* memory!
+        lib.freeString(error_ptr)
+        del error_ptr
         # array should be GC'd once err is returned
         return err
 
@@ -165,6 +168,52 @@ class Intermezzo:
     def set_output_mode(mode):
         output_mode = lib.SetOutputMode(mode)
         return output_mode
+
+    @staticmethod
+    def parse_event(bytedata):
+        c_bytes = ffi.new("char[]", bytedata)
+        length = int(ffi.sizeof(c_bytes) / ffi.sizeof("char"))
+        raw_ptr = lib.ParseEvent(c_bytes, length)
+        pyevt = {
+            "Type":   raw_ptr.ev.Type,
+            "Mod":    raw_ptr.ev.Mod,
+            "Key":    raw_ptr.ev.Key,
+            "Ch":     raw_ptr.ev.Ch,
+            "Width":  raw_ptr.ev.Width,
+            "Height": raw_ptr.ev.Height,
+            "Err":    ffi.string(raw_ptr.ev.Err).decode("utf-8"),
+            "MouseX": raw_ptr.ev.MouseX,
+            "MouseY": raw_ptr.ev.MouseY,
+            "N":      raw_ptr.ev.N
+        }
+        bytedata = raw_ptr.data
+        # free that RawEvent* and associated memory!
+        lib.freeRawEvent(raw_ptr)
+        del raw_ptr
+        return pyevt, bytedata
+
+    @staticmethod
+    def poll_raw_event(bytedata):
+        c_bytes = ffi.new("char[]", bytedata)
+        length = int(ffi.sizeof(c_bytes) / ffi.sizeof("char"))
+        raw_ptr = lib.PollRawEvent(c_bytes, length)
+        pyevt = {
+            "Type":   raw_ptr.ev.Type,
+            "Mod":    raw_ptr.ev.Mod,
+            "Key":    raw_ptr.ev.Key,
+            "Ch":     raw_ptr.ev.Ch,
+            "Width":  raw_ptr.ev.Width,
+            "Height": raw_ptr.ev.Height,
+            "Err":    ffi.string(raw_ptr.ev.Err).decode("utf-8"),
+            "MouseX": raw_ptr.ev.MouseX,
+            "MouseY": raw_ptr.ev.MouseY,
+            "N":      raw_ptr.ev.N
+        }
+        bytedata = raw_ptr.data
+        # free that RawEvent* and associated memory!
+        lib.freeRawEvent(raw_ptr)
+        del raw_ptr
+        return pyevt, bytedata
 
     @staticmethod
     def event(name):

@@ -34,7 +34,6 @@ async def main():
         except:
             evt = {"Type": None, "Key": 0}
         if evt["Type"] == mzo.event("Key") and evt["Key"] == mzo.key("Esc"):
-            is_running = False
             break
         draw()
         time.sleep(0.01)
