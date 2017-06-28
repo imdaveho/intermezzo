@@ -1,5 +1,5 @@
 # intermezzo
-Cross platform, interactive forms and prompts for the terminal and command line.
+Cross platform library to build command line user experiences.
 
 ## Table of Contents
 
