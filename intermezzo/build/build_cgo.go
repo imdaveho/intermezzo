@@ -351,6 +351,7 @@ func ParseEvent(data unsafe.Pointer, length C.int) *C.RawEvent {
 	evt_ptr.MouseY = C.int(evt.MouseY)
 	evt_ptr.N = C.int(evt.N)
 	// revert GoBytes back and cast to uint8_t*
+	// www.lobaro.com/embedded-development-with-c-and-golang-cgo
 	data_ptr := (*C.uint8_t)(C.CBytes(b))
 	// create RawEvent*
 	raw_ptr := C.createRawEvent()
@@ -383,6 +384,7 @@ func PollRawEvent(data unsafe.Pointer, length C.int) *C.RawEvent {
 	evt_ptr.MouseY = C.int(evt.MouseY)
 	evt_ptr.N = C.int(evt.N)
 	// revert GoBytes back and cast to uint8_t*
+	// www.lobaro.com/embedded-development-with-c-and-golang-cgo
 	data_ptr := (*C.uint8_t)(C.CBytes(b))
 	// create RawEvent*
 	raw_ptr := C.createRawEvent()

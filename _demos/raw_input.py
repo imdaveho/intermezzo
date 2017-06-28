@@ -1,4 +1,5 @@
 import time
+import struct
 from intermezzo import Intermezzo as mzo
 
 def tbPrint(x, y, fg, bg, msg):
@@ -6,7 +7,7 @@ def tbPrint(x, y, fg, bg, msg):
         mzo.set_cell(x, y, c, fg, bg)
         x += 1
 
-current = b""
+current = ""
 curev = {
     "Type":   None,
     "Mod":    None,
@@ -53,7 +54,7 @@ def redraw_all():
     tbPrint(0, 1, coldef, coldef, current)
     if curev["Type"] == mzo.event("Key"):
         tbPrint(0, 2, coldef, coldef,
-                f"EventKey: k: {curev['Key']}, c: {curev['Ch']}, mod: {mod_str(curev['Mod'])}")
+                f"EventKey: k: {curev['Key']}, c: {chr(curev['Ch'])}, mod: {mod_str(curev['Mod'])}")
     elif curev["Type"] == mzo.event("Mouse"):
         tbPrint(0, 2, coldef, coldef,
                 f"EventMouse: x: {curev['MouseX']}, y: {curev['MouseY']}, b: {mouse_button_str(curev['Key'])}, mod: {mod_str(curev['Mod'])}")
@@ -69,27 +70,37 @@ def main():
         raise(Exception(err))
     mzo.set_input_mode(mzo.input("Alt")|mzo.input("Mouse"))
     redraw_all()
-    data = bytes(64)
+
     while True:
-        beg = sum([1 for i in data if i > 0])
-        if 64 - beg < 32:
-            data = data[beg:]
-        d = data[beg:beg+32]
-        evt, data = mzo.poll_raw_event(d)
-        print(d)
+        data = bytes(64)
+        length = len(struct.unpack(f"{len(data)}p", data)[0])
+
+        if 64 - length < 32:
+            newdata = bytes(length+32)
+            newdata[:len(data)] = data
+            data = newdata
+
+        # in Go, this sub-array is call-by-reference
+        # therefore, when PollRawEvent updates d, it
+        # in turn, also updates data. This isn't the
+        # case here; we need to manually update data:
+        d = data[length:length+32]
+        evt, d = mzo.poll_raw_event(d)
+        data = data[:length] + struct.pack(f"{len(d)}B", *d) + data[length+32:]
+
         if evt["Type"] == mzo.event("Raw"):
-            data = data[:beg+evt["N"]]
-            current = "%s" % data
-            print(current)
-            if current == 'q':
+            data = data[:length+evt["N"]]
+            current = "\"" + f"{data!s}"[2:][:-1] + "\""
+            if current == '"q"':
                 break
+
             while True:
-                _evt, data = mzo.parse_event(data)
-                if _evt["N"] == 0:
+                evt, data = mzo.parse_event(data)
+                if evt["N"] == 0:
                     break
-                curev = _evt
-                data = data[curev["N"]:]
-                data = data[:len(data) - curev["N"]]
+                curev = evt
+                data = data[:len(data)-evt["N"]]
+
         if evt["Type"] == mzo.event("Error"):
             raise(Exception(evt["Err"]))
         redraw_all()

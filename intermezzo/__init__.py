@@ -171,8 +171,10 @@ class Intermezzo:
 
     @staticmethod
     def parse_event(bytedata):
-        c_bytes = ffi.new("char[]", bytedata)
-        length = int(ffi.sizeof(c_bytes) / ffi.sizeof("char"))
+        length = len(bytedata)
+        c_bytes = ffi.new("uint8_t[]", length)
+        for i, b in enumerate(bytedata):
+            c_bytes[i] = b
         raw_ptr = lib.ParseEvent(c_bytes, length)
         pyevt = {
             "Type":   raw_ptr.ev.Type,
@@ -186,7 +188,7 @@ class Intermezzo:
             "MouseY": raw_ptr.ev.MouseY,
             "N":      raw_ptr.ev.N
         }
-        bytedata = raw_ptr.data
+        bytedata = ffi.unpack(raw_ptr.data, length)
         # free that RawEvent* and associated memory!
         lib.freeRawEvent(raw_ptr)
         del raw_ptr
@@ -194,8 +196,10 @@ class Intermezzo:
 
     @staticmethod
     def poll_raw_event(bytedata):
-        c_bytes = ffi.new("char[]", bytedata)
-        length = int(ffi.sizeof(c_bytes) / ffi.sizeof("char"))
+        length = len(bytedata)
+        c_bytes = ffi.new("uint8_t[]", length)
+        for i, b in enumerate(bytedata):
+            c_bytes[i] = b
         raw_ptr = lib.PollRawEvent(c_bytes, length)
         pyevt = {
             "Type":   raw_ptr.ev.Type,
@@ -209,11 +213,15 @@ class Intermezzo:
             "MouseY": raw_ptr.ev.MouseY,
             "N":      raw_ptr.ev.N
         }
-        bytedata = raw_ptr.data
+        bytedata = ffi.unpack(raw_ptr.data, length)
         # free that RawEvent* and associated memory!
         lib.freeRawEvent(raw_ptr)
         del raw_ptr
         return pyevt, bytedata
+
+    @staticmethod
+    def rune_width(r):
+        return lib.RuneWidth(ord(r))
 
     @staticmethod
     def event(name):

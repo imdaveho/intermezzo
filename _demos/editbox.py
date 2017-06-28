@@ -1,5 +1,4 @@
 from intermezzo import Intermezzo as mzo
-from wcwidth import wcwidth
 
 
 TABSTOP_LEN = 8
@@ -9,7 +8,7 @@ EDITBOX_WIDTH = 30
 def tbPrint(x, y, fg, bg, msg):
     for c in msg:
         mzo.set_cell(x, y, c, fg, bg)
-        x += wcwidth(c)
+        x += mzo.rune_width(c)
 
 def fill(x, y, w, h, cell):
     for ly in range(0, h):
@@ -19,7 +18,7 @@ def fill(x, y, w, h, cell):
 def rune_advance_len(r, pos):
     if r == '\t':
         return TABSTOP_LEN - (pos % TABSTOP_LEN)
-    return wcwidth(r)
+    return mzo.rune_width(r)
 
 # def voffset_coffset(text, boffset):
 #     """
@@ -99,7 +98,7 @@ class EditBox:
             else:
                 if rx >= 0:
                     mzo.set_cell(x+rx, y, rune, coldef, coldef)
-                lx += wcwidth(rune)
+                lx += mzo.rune_width(rune)
             # next:
             t = t[len(rune):]
 
