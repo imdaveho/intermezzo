@@ -25,6 +25,9 @@ elif OS == 'Linux':
 
 
 class Intermezzo:
+    # *****************************
+    # Termbox-Go API wrapper:     *
+    # *****************************
     @staticmethod
     def is_init():
         init = lib.IsInit()
@@ -219,10 +222,9 @@ class Intermezzo:
         del raw_ptr
         return pyevt, bytedata
 
-    @staticmethod
-    def rune_width(r):
-        return lib.RuneWidth(ord(r))
-
+    # *****************************
+    # Termbox-Go constants:       *
+    # *****************************
     @staticmethod
     def event(name):
         return {
@@ -367,3 +369,80 @@ class Intermezzo:
             "Underline": 1024,
             "Reverse":   2048,
         }.get(name, 0)
+
+    # *****************************
+    # Runewidth-Go API wrapper:   *
+    # *****************************
+    @staticmethod
+    def rune_width(r):
+        return lib.RuneWidth(ord(r))
+
+    @staticmethod
+    def is_ambiguous_width(r):
+        is_ambiguous = lib.IsAmbiguousWidth(ord(r))
+        if is_ambiguous == 0:
+            return False
+        elif is_ambiguous == 1:
+            return True
+
+    @staticmethod
+    def fill_left(s, w):
+        ffi_str = ffi.new("char[]", s.encode("utf-8"))
+        str_ptr = lib.FillLeft(ffi_str, w)
+        new_str = ffi.string(str_ptr).decode("utf-8")
+        # free that char* memory!
+        lib.freeString(str_ptr)
+        del str_ptr
+        return new_str
+
+    @staticmethod
+    def fill_right(s, w):
+        ffi_str = ffi.new("char[]", s.encode("utf-8"))
+        str_ptr = lib.FillRight(ffi_str, w)
+        new_str = ffi.string(str_ptr).decode("utf-8")
+        # free that char* memory!
+        lib.freeString(str_ptr)
+        del str_ptr
+        return new_str
+
+    @staticmethod
+    def is_east_asian():
+        is_east_asian = lib.IsEastAsian()
+        if is_east_asian == 0:
+            return False
+        elif is_east_asian == 1:
+            return True
+
+    @staticmethod
+    def is_neutral_width(r):
+        is_neutral = lib.IsNeutralWidth(ord(r))
+        if is_neutral == 0:
+            return False
+        elif is_neutral == 1:
+            return True
+
+    @staticmethod
+    def string_width(s):
+        ffi_str = ffi.new("char[]", s.encode("utf-8"))
+        return lib.StringWidth(ffi_str)
+
+    @staticmethod
+    def truncate(s, w, tail):
+        ffi_s = ffi.new("char[]", s.encode("utf-8"))
+        ffi_tail = ffi.new("char[]", tail.encode("utf-8"))
+        str_ptr = lib.Truncate(ffi_s, w, ffi_tail)
+        new_str = ffi.string(str_ptr).decode("utf-8")
+        # free that char* memory!
+        lib.freeString(str_ptr)
+        del str_ptr
+        return new_str
+
+    @staticmethod
+    def wrap(s, w):
+        ffi_str = ffi.new("char[]", s.encode("utf-8"))
+        str_ptr = lib.Wrap(ffi_str, w)
+        new_str = ffi.string(str_ptr).decode("utf-8")
+        # free that char* memory!
+        lib.freeString(str_ptr)
+        del str_ptr
+        return new_str

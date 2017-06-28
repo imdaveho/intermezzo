@@ -1,5 +1,4 @@
 from intermezzo import Intermezzo as mzo
-from wcwidth import wcwidth
 
 
 chars = "nnnnnnnnnbbbbbbbbbuuuuuuuuuBBBBBBBBB"
@@ -47,9 +46,12 @@ def print_wide(x, y, s):
         if red:
             c = mzo.color("Red")
         mzo.set_cell(x, y, r, mzo.color("Default"), c)
-        w = wcwidth(r)
-        # NOTE: wcwidth may not have an
-        # equivalent to IsAmbiguousWidth()
+        w = mzo.rune_width(r)
+        # NOTE: if using wcwidth, it does
+        # not have a 1:1 equivalent to
+        # IsAmbiguousWidth()
+        if w == 0 or (w == 2 and mzo.is_ambiguous_width(r)):
+            w = 1
         x += w
         red = not red
 
