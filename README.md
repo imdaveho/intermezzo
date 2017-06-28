@@ -14,7 +14,7 @@ Cross platform, interactive forms and prompts for the terminal and command line.
   - [asciimatics](#asciimatics)
 * [License](#license)
   
-## Goal and Purpose
+## [Goal and Purpose](#goal)
 Python is cross platform, so why shouldn't the tools that interact with the command line also be? Intermezzo provides a simple API to create terminal based user experiences. It takes the ergonomics of Python and combines it with the cross platform flexibility of Golang. Intermezzo is a thin wrapper around the simple, but powerful Termbox(-Go) library--which is a modern replacement for [curses](docs.python.org/3/library/curses.html)/[blessings](github.com/erikrose/blessings) and [pypiwin32](github.com/pywin32/pypiwin32)
 
 ### [Why?](#why)
