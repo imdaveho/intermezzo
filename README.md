@@ -3,16 +3,16 @@ Cross platform, interactive forms and prompts for the terminal and command line.
 
 ## Table of Contents
 
-1. [Goal and Purpose](#goal)
+* [Goal and Purpose](#goal)
   - [Why?](#why)
-2. [Documentation](#documentation)
-  1. [Installation](#installation)
-  2. [Examples](#examples)
-  3. [Prompt Types](#types)
-3. [Credits](#credits)
+* [Documentation](#documentation)
+  - [Installation](#installation)
+  - [Examples](#examples)
+  - [Prompt Types](#types)
+* [Credits](#credits)
   - [termbox-go](#termbox-go)
   - [asciimatics](#asciimatics)
-4. [License](#license)
+* [License](#license)
   
 ## Goal and Purpose
 Python is cross platform, so why shouldn't the tools that interact with the command line also be? Intermezzo provides a simple API to create terminal based user experiences. It takes the ergonomics of Python and combines it with the cross platform flexibility of Golang. Intermezzo is a thin wrapper around the simple, but powerful Termbox(-Go) library--which is a modern replacement for [curses](docs.python.org/3/library/curses.html)/[blessings](github.com/erikrose/blessings) and [pypiwin32](github.com/pywin32/pypiwin32)
@@ -28,9 +28,9 @@ Here is the Python version using CFFI. (feel free to use this as a reference)
 TDB.
 
 ## [Credits](#credits)
-- Got to thank the amazing [nsf](github.com/nsf) for providing an excellent library for working with command line interfaces.
+- Have got to thank the amazing [nsf](github.com/nsf) for providing an excellent library for working with command line interfaces.
 - Many thanks to [peterbrittain](github.com/peterbrittain) for the initial iteration of Intermezzo based on his [screen.py](github.com/peterbrittain/asciimatics/blob/master/asciimatics/screen.py) implementation.
-- Couldn't have done it without this guide written by Andrey Petrov ([shazow](github.com/shazow): [See Python, See Python Go, Go Python Go](blog.heroku.com/see_python_see_python_go_go_python_go) as well as the guide by [Filippo Valsorda](blog.filippo.io): [Building Python Modules with Go 1.5](blog.filippo.io/building-python-modules-with-go-1-5)
+- Couldn't have done it without this guide written by Andrey Petrov ([shazow](github.com/shazow)): [See Python, See Python Go, Go Python Go](blog.heroku.com/see_python_see_python_go_go_python_go) as well as the guide by [Filippo Valsorda](blog.filippo.io): [Building Python Modules with Go 1.5](blog.filippo.io/building-python-modules-with-go-1-5)
 
 ## [License](#license)
 Copywrite (c) 2017 David Ho. Licensed under the MIT license.
