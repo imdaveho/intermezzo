@@ -33,4 +33,4 @@ TDB.
 - Couldn't have done it without this guide written by Andrey Petrov ([shazow](github.com/shazow)): [See Python, See Python Go, Go Python Go](blog.heroku.com/see_python_see_python_go_go_python_go) as well as the guide by [Filippo Valsorda](blog.filippo.io): [Building Python Modules with Go 1.5](blog.filippo.io/building-python-modules-with-go-1-5)
 
 ## [License](#license)
-Copywrite (c) 2017 David Ho. Licensed under the MIT license.
+Copywrite (c) 2016-2017 David Ho. Licensed under the MIT license.
