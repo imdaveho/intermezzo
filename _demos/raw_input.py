@@ -1,5 +1,6 @@
 import time
 import struct
+import platform
 from intermezzo import Intermezzo as mzo
 
 def tbPrint(x, y, fg, bg, msg):
@@ -105,8 +106,10 @@ def main():
             raise(Exception(evt["Err"]))
         redraw_all()
 
-if __name__ == "__main__":
+if __name__ == "__main__" and platform.system() != 'Windows':
     try:
         main()
     finally:
         mzo.close()
+else:
+    print("[Warning] Raw input handling is not supported on Windows")

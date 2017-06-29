@@ -6,18 +6,23 @@ from ._ffi import ffi
 
 PKGPATH = os.path.dirname(os.path.abspath(__file__))
 OS = platform.system()
-ARCH = platform.processor()
+ARCH = platform.machine()
 lib = None
 
 if OS == 'Windows':
-    # TODO: add support for Win32
-    pass
+    if ARCH in ("x86_64", "i386", "i686", "AMD64"):
+        lib = ffi.dlopen(os.path.join(PKGPATH, "build", "win32", "libtermbox-intel.dll"))
+    else:
+        # TODO: add support for ARM and others
+        pass
 elif OS == 'Darwin':
-    if ARCH == "x86_64" or ARCH == "i386":
+    if ARCH in ("x86_64", "i386", "i686", "AMD64"):
         lib = ffi.dlopen(os.path.join(PKGPATH, "build", "macos", "libtermbox-intel.so"))
-    pass
+    else:
+        # TODO: add support for ARM and others
+        pass
 elif OS == 'Linux':
-    if ARCH == "x86_64" or ARCH == "i386":
+    if ARCH in ("x86_64", "i386", "i686", "AMD64"):
         lib = ffi.dlopen(os.path.join(PKGPATH, "build", "linux", "libtermbox-intel.so"))
     else:
         # TODO: add support for ARM and others
