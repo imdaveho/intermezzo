@@ -9,3 +9,4 @@ intermezzo/build/*/*.h
 intermezzo/build/*/*.so
 intermezzo/build/*/*.a
 intermezzo/build/*/*.dll
+intermezzo/build/*/*.c
