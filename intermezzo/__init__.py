@@ -9,23 +9,26 @@ OS = platform.system()
 ARCH = platform.machine()
 lib = None
 
+# TODO: differentiate between 32-bit and 64-bit
 if OS == 'Windows':
     if ARCH in ("x86_64", "i386", "i686", "AMD64"):
         lib = ffi.dlopen(os.path.join(PKGPATH, "build", "win32", "libtermbox-intel.dll"))
+    elif ARCH in "aarch64"():
+        lib = ffi.dlopen(os.path.join(PKGPATH, "build", "win32", "libtermbox-arm.dll"))
     else:
-        # TODO: add support for ARM and others
         pass
 elif OS == 'Darwin':
     if ARCH in ("x86_64", "i386", "i686", "AMD64"):
         lib = ffi.dlopen(os.path.join(PKGPATH, "build", "macos", "libtermbox-intel.so"))
     else:
-        # TODO: add support for ARM and others
+        # OSX doesn't support ARM
         pass
 elif OS == 'Linux':
     if ARCH in ("x86_64", "i386", "i686", "AMD64"):
         lib = ffi.dlopen(os.path.join(PKGPATH, "build", "linux", "libtermbox-intel.so"))
+    elif ARCH in ("aarch64",):
+        lib = ffi.dlopen(os.path.join(PKGPATH, "build", "linux", "libtermbox-arm.so"))
     else:
-        # TODO: add support for ARM and others
         pass
 
 
